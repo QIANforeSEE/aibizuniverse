@@ -59,6 +59,13 @@ export const Route = createFileRoute("/sitemap.xml")({
           ...signals.map((s) => ({ path: `/article/${s.slug}`, changefreq: "weekly" as const, priority: "0.6" })),
         ];
 
+        const channelEntries: SitemapEntry[] = channels.map((c) => ({
+          path: `/channel/${c.slug}`,
+          changefreq: "weekly",
+          priority: "0.8",
+        }));
+
+
         const entries: SitemapEntry[] = [
           ...staticEntries,
           ...videoEntries,
