@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
+import logoAsset from "@/assets/logo.asset.json";
+
 
 const NAV = [
   { to: "/", label: "首页", en: "Home" },
@@ -19,13 +21,16 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 lg:px-10">
         <Link to="/" className="group flex items-center gap-2.5">
-          <span className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-md bg-foreground text-background">
-            <span className="absolute inset-0 bg-lime opacity-0 transition-opacity group-hover:opacity-100" />
-            <span className="relative font-display text-[15px] font-bold">A</span>
-          </span>
+          <img
+            src={logoAsset.url}
+            alt="AI商业宇宙 Logo"
+            className="h-10 w-10 rounded-md object-contain"
+            width={40}
+            height={40}
+          />
           <div className="flex flex-col leading-none">
             <span className="font-display text-[15px] font-bold tracking-tight">AI商业宇宙</span>
-            <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">AI Business Universe</span>
+            <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">AI Biz Universe</span>
           </div>
         </Link>
 
