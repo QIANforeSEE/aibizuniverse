@@ -5,6 +5,7 @@ import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { suggestedQuestions } from "@/lib/mock-data";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/agent")({
   head: () => ({
@@ -30,6 +31,7 @@ type AgentResponse = {
 type Turn = { question: string; response?: AgentResponse; error?: string };
 
 function AgentPage() {
+  const t = useT();
   const [input, setInput] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const [loading, setLoading] = useState(false);
@@ -104,17 +106,20 @@ function AgentPage() {
                 <Sparkles className="h-3.5 w-3.5 text-violet" /> 建议提问
               </div>
               <ul className="mt-4 space-y-2">
-                {suggestedQuestions.slice(0, 4).map((q) => (
-                  <li key={q}>
-                    <button
-                      onClick={() => ask(q)}
-                      className="group flex w-full items-start justify-between gap-3 rounded-md border border-transparent px-2 py-2 text-left text-sm text-foreground transition-colors hover:border-border hover:bg-accent"
-                    >
-                      <span>{q}</span>
-                      <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </button>
-                  </li>
-                ))}
+                {suggestedQuestions.slice(0, 4).map((q, i) => {
+                  const text = t(q);
+                  return (
+                    <li key={i}>
+                      <button
+                        onClick={() => ask(text)}
+                        className="group flex w-full items-start justify-between gap-3 rounded-md border border-transparent px-2 py-2 text-left text-sm text-foreground transition-colors hover:border-border hover:bg-accent"
+                      >
+                        <span>{text}</span>
+                        <ArrowUpRight className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </aside>
           </div>
