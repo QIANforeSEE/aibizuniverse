@@ -4,6 +4,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { videos } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { videoThumbs, str } from "@/lib/thumbs";
+import { buildDetailHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/video/$slug")({
   loader: ({ params }) => {
@@ -11,17 +12,17 @@ export const Route = createFileRoute("/video/$slug")({
     if (!v) throw notFound();
     return v;
   },
-  head: ({ loaderData }) => {
-    const title = str(loaderData?.title, "Video");
-    const desc = str(loaderData?.excerpt, "");
-    return {
-      meta: [
-        { title: `${title} · AI Business Universe` },
-        { name: "description", content: desc },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc },
-      ],
-    };
+  head: ({ params, loaderData }) => {
+    if (!loaderData) {
+      return { meta: [{ title: `Video · AI商业宇宙 · AI Business Universe` }] };
+    }
+    return buildDetailHead({
+      path: `/video/${params.slug}`,
+      title: loaderData.title,
+      description: loaderData.excerpt,
+      image: videoThumbs[loaderData.thumb],
+      type: "video.other",
+    });
   },
   notFoundComponent: () => (
     <SiteLayout>
