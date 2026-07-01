@@ -19,6 +19,7 @@ import { Route as AiNowRouteImport } from './routes/ai-now'
 import { Route as AgentRouteImport } from './routes/agent'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiAgentRouteImport } from './routes/api/agent'
 
 const TrendsRoute = TrendsRouteImport.update({
   id: '/trends',
@@ -70,6 +71,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAgentRoute = ApiAgentRouteImport.update({
+  id: '/api/agent',
+  path: '/api/agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/playbooks': typeof PlaybooksRoute
   '/reports': typeof ReportsRoute
   '/trends': typeof TrendsRoute
+  '/api/agent': typeof ApiAgentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/playbooks': typeof PlaybooksRoute
   '/reports': typeof ReportsRoute
   '/trends': typeof TrendsRoute
+  '/api/agent': typeof ApiAgentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/playbooks': typeof PlaybooksRoute
   '/reports': typeof ReportsRoute
   '/trends': typeof TrendsRoute
+  '/api/agent': typeof ApiAgentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/playbooks'
     | '/reports'
     | '/trends'
+    | '/api/agent'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/playbooks'
     | '/reports'
     | '/trends'
+    | '/api/agent'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/playbooks'
     | '/reports'
     | '/trends'
+    | '/api/agent'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +170,7 @@ export interface RootRouteChildren {
   PlaybooksRoute: typeof PlaybooksRoute
   ReportsRoute: typeof ReportsRoute
   TrendsRoute: typeof TrendsRoute
+  ApiAgentRoute: typeof ApiAgentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/agent': {
+      id: '/api/agent'
+      path: '/api/agent'
+      fullPath: '/api/agent'
+      preLoaderRoute: typeof ApiAgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlaybooksRoute: PlaybooksRoute,
   ReportsRoute: ReportsRoute,
   TrendsRoute: TrendsRoute,
+  ApiAgentRoute: ApiAgentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
