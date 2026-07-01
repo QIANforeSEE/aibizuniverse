@@ -68,12 +68,14 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const entries: SitemapEntry[] = [
           ...staticEntries,
+          ...channelEntries,
           ...videoEntries,
           ...podcastEntries,
           ...musicEntries,
           ...reportEntries,
           ...articleEntries,
         ];
+
 
         const urls = entries.map((e) =>
           [
