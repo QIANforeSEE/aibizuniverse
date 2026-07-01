@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Download, FileText } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { reports } from "@/lib/mock-data";
+import { reports, type ReportItem } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { buildDetailHead } from "@/lib/seo";
 
@@ -43,7 +43,7 @@ const chip = {
 } as const;
 
 function ReportDetail() {
-  const r = Route.useLoaderData();
+  const r = Route.useLoaderData() as ReportItem;
   const t = useT();
   const { lang } = useLang();
   return (

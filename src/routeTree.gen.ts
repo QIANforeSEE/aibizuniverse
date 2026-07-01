@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VideoRouteImport } from './routes/video'
 import { Route as TrendsRouteImport } from './routes/trends'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as PodcastRouteImport } from './routes/podcast'
 import { Route as PlaybooksRouteImport } from './routes/playbooks'
@@ -23,6 +24,7 @@ import { Route as AgentRouteImport } from './routes/agent'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as VideoSlugRouteImport } from './routes/video.$slug'
+import { Route as ReportsSlugRouteImport } from './routes/reports.$slug'
 import { Route as PodcastSlugRouteImport } from './routes/podcast.$slug'
 import { Route as MusicSlugRouteImport } from './routes/music.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
@@ -36,6 +38,11 @@ const VideoRoute = VideoRouteImport.update({
 const TrendsRoute = TrendsRouteImport.update({
   id: '/trends',
   path: '/trends',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportsRoute = ReportsRouteImport.update({
@@ -98,6 +105,11 @@ const VideoSlugRoute = VideoSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => VideoRoute,
 } as any)
+const ReportsSlugRoute = ReportsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ReportsRoute,
+} as any)
 const PodcastSlugRoute = PodcastSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -130,13 +142,15 @@ export interface FileRoutesByFullPath {
   '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
   '/podcast': typeof PodcastRouteWithChildren
-  '/reports': typeof ReportsRoute
+  '/reports': typeof ReportsRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trends': typeof TrendsRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/music/$slug': typeof MusicSlugRoute
   '/podcast/$slug': typeof PodcastSlugRoute
+  '/reports/$slug': typeof ReportsSlugRoute
   '/video/$slug': typeof VideoSlugRoute
 }
 export interface FileRoutesByTo {
@@ -150,13 +164,15 @@ export interface FileRoutesByTo {
   '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
   '/podcast': typeof PodcastRouteWithChildren
-  '/reports': typeof ReportsRoute
+  '/reports': typeof ReportsRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trends': typeof TrendsRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/music/$slug': typeof MusicSlugRoute
   '/podcast/$slug': typeof PodcastSlugRoute
+  '/reports/$slug': typeof ReportsSlugRoute
   '/video/$slug': typeof VideoSlugRoute
 }
 export interface FileRoutesById {
@@ -171,13 +187,15 @@ export interface FileRoutesById {
   '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
   '/podcast': typeof PodcastRouteWithChildren
-  '/reports': typeof ReportsRoute
+  '/reports': typeof ReportsRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trends': typeof TrendsRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/music/$slug': typeof MusicSlugRoute
   '/podcast/$slug': typeof PodcastSlugRoute
+  '/reports/$slug': typeof ReportsSlugRoute
   '/video/$slug': typeof VideoSlugRoute
 }
 export interface FileRouteTypes {
@@ -194,12 +212,14 @@ export interface FileRouteTypes {
     | '/playbooks'
     | '/podcast'
     | '/reports'
+    | '/sitemap.xml'
     | '/trends'
     | '/video'
     | '/api/agent'
     | '/article/$slug'
     | '/music/$slug'
     | '/podcast/$slug'
+    | '/reports/$slug'
     | '/video/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -214,12 +234,14 @@ export interface FileRouteTypes {
     | '/playbooks'
     | '/podcast'
     | '/reports'
+    | '/sitemap.xml'
     | '/trends'
     | '/video'
     | '/api/agent'
     | '/article/$slug'
     | '/music/$slug'
     | '/podcast/$slug'
+    | '/reports/$slug'
     | '/video/$slug'
   id:
     | '__root__'
@@ -234,12 +256,14 @@ export interface FileRouteTypes {
     | '/playbooks'
     | '/podcast'
     | '/reports'
+    | '/sitemap.xml'
     | '/trends'
     | '/video'
     | '/api/agent'
     | '/article/$slug'
     | '/music/$slug'
     | '/podcast/$slug'
+    | '/reports/$slug'
     | '/video/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -254,7 +278,8 @@ export interface RootRouteChildren {
   MusicRoute: typeof MusicRouteWithChildren
   PlaybooksRoute: typeof PlaybooksRoute
   PodcastRoute: typeof PodcastRouteWithChildren
-  ReportsRoute: typeof ReportsRoute
+  ReportsRoute: typeof ReportsRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrendsRoute: typeof TrendsRoute
   VideoRoute: typeof VideoRouteWithChildren
   ApiAgentRoute: typeof ApiAgentRoute
@@ -275,6 +300,13 @@ declare module '@tanstack/react-router' {
       path: '/trends'
       fullPath: '/trends'
       preLoaderRoute: typeof TrendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reports': {
@@ -361,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideoSlugRouteImport
       parentRoute: typeof VideoRoute
     }
+    '/reports/$slug': {
+      id: '/reports/$slug'
+      path: '/$slug'
+      fullPath: '/reports/$slug'
+      preLoaderRoute: typeof ReportsSlugRouteImport
+      parentRoute: typeof ReportsRoute
+    }
     '/podcast/$slug': {
       id: '/podcast/$slug'
       path: '/$slug'
@@ -413,6 +452,17 @@ const PodcastRouteChildren: PodcastRouteChildren = {
 const PodcastRouteWithChildren =
   PodcastRoute._addFileChildren(PodcastRouteChildren)
 
+interface ReportsRouteChildren {
+  ReportsSlugRoute: typeof ReportsSlugRoute
+}
+
+const ReportsRouteChildren: ReportsRouteChildren = {
+  ReportsSlugRoute: ReportsSlugRoute,
+}
+
+const ReportsRouteWithChildren =
+  ReportsRoute._addFileChildren(ReportsRouteChildren)
+
 interface VideoRouteChildren {
   VideoSlugRoute: typeof VideoSlugRoute
 }
@@ -434,7 +484,8 @@ const rootRouteChildren: RootRouteChildren = {
   MusicRoute: MusicRouteWithChildren,
   PlaybooksRoute: PlaybooksRoute,
   PodcastRoute: PodcastRouteWithChildren,
-  ReportsRoute: ReportsRoute,
+  ReportsRoute: ReportsRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrendsRoute: TrendsRoute,
   VideoRoute: VideoRouteWithChildren,
   ApiAgentRoute: ApiAgentRoute,
