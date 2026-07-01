@@ -16,23 +16,25 @@ export const Route = createFileRoute("/channel/$slug")({
   head: ({ params, loaderData }) => {
     if (!loaderData) return { meta: [{ title: `Channel · ${SITE_NAME}` }] };
     const url = absUrl(`/channel/${params.slug}`);
-    const titleCN = `${str({ cn: loaderData.name.cn, en: "" } as never)} · ${SITE_NAME}`;
-    const titleEN = `${loaderData.name.en} · AI Business Universe`;
-    const title = `${loaderData.name.cn} · ${loaderData.name.en} — ${SITE_NAME}`;
-    const desc = `${loaderData.desc.cn} — ${loaderData.desc.en}`;
+    const nameCN = str(loaderData.name);
+    const nameEN = typeof loaderData.name === "string" ? loaderData.name : loaderData.name.en;
+    const descCN = str(loaderData.desc);
+    const descEN = typeof loaderData.desc === "string" ? loaderData.desc : loaderData.desc.en;
+    const title = `${nameCN} · ${nameEN} — ${SITE_NAME}`;
+    const desc = `${descCN} — ${descEN}`;
     return {
       meta: [
         { title },
         { name: "description", content: desc },
         { property: "og:site_name", content: SITE_NAME },
-        { property: "og:title", content: `${loaderData.name.cn} · ${loaderData.name.en}` },
+        { property: "og:title", content: `${nameCN} · ${nameEN}` },
         { property: "og:description", content: desc },
         { property: "og:type", content: "website" },
         { property: "og:url", content: url },
         { property: "og:locale", content: "zh_CN" },
         { property: "og:locale:alternate", content: "en_US" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: titleCN },
+        { name: "twitter:title", content: `${nameCN} · ${nameEN}` },
         { name: "twitter:description", content: desc },
       ],
       links: [{ rel: "canonical", href: url }],
@@ -42,7 +44,7 @@ export const Route = createFileRoute("/channel/$slug")({
           children: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            name: `${loaderData.name.cn} · ${loaderData.name.en}`,
+            name: `${nameCN} · ${nameEN}`,
             description: desc,
             url,
             inLanguage: ["zh-CN", "en-US"],
@@ -51,8 +53,8 @@ export const Route = createFileRoute("/channel/$slug")({
         },
       ],
     };
-    void titleEN;
   },
+
   notFoundComponent: () => (
     <SiteLayout>
       <div className="mx-auto max-w-[900px] px-6 py-32 text-center">

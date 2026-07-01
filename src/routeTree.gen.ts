@@ -28,6 +28,7 @@ import { Route as VideoSlugRouteImport } from './routes/video.$slug'
 import { Route as ReportsSlugRouteImport } from './routes/reports.$slug'
 import { Route as PodcastSlugRouteImport } from './routes/podcast.$slug'
 import { Route as MusicSlugRouteImport } from './routes/music.$slug'
+import { Route as ChannelSlugRouteImport } from './routes/channel.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as ApiAgentRouteImport } from './routes/api/agent'
 
@@ -126,6 +127,11 @@ const MusicSlugRoute = MusicSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => MusicRoute,
 } as any)
+const ChannelSlugRoute = ChannelSlugRouteImport.update({
+  id: '/channel/$slug',
+  path: '/channel/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArticleSlugRoute = ArticleSlugRouteImport.update({
   id: '/article/$slug',
   path: '/article/$slug',
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/channel/$slug': typeof ChannelSlugRoute
   '/music/$slug': typeof MusicSlugRoute
   '/podcast/$slug': typeof PodcastSlugRoute
   '/reports/$slug': typeof ReportsSlugRoute
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/channel/$slug': typeof ChannelSlugRoute
   '/music/$slug': typeof MusicSlugRoute
   '/podcast/$slug': typeof PodcastSlugRoute
   '/reports/$slug': typeof ReportsSlugRoute
@@ -202,6 +210,7 @@ export interface FileRoutesById {
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
+  '/channel/$slug': typeof ChannelSlugRoute
   '/music/$slug': typeof MusicSlugRoute
   '/podcast/$slug': typeof PodcastSlugRoute
   '/reports/$slug': typeof ReportsSlugRoute
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/video'
     | '/api/agent'
     | '/article/$slug'
+    | '/channel/$slug'
     | '/music/$slug'
     | '/podcast/$slug'
     | '/reports/$slug'
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/video'
     | '/api/agent'
     | '/article/$slug'
+    | '/channel/$slug'
     | '/music/$slug'
     | '/podcast/$slug'
     | '/reports/$slug'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/video'
     | '/api/agent'
     | '/article/$slug'
+    | '/channel/$slug'
     | '/music/$slug'
     | '/podcast/$slug'
     | '/reports/$slug'
@@ -297,6 +309,7 @@ export interface RootRouteChildren {
   VideoRoute: typeof VideoRouteWithChildren
   ApiAgentRoute: typeof ApiAgentRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
+  ChannelSlugRoute: typeof ChannelSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -434,6 +447,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MusicSlugRouteImport
       parentRoute: typeof MusicRoute
     }
+    '/channel/$slug': {
+      id: '/channel/$slug'
+      path: '/channel/$slug'
+      fullPath: '/channel/$slug'
+      preLoaderRoute: typeof ChannelSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/article/$slug': {
       id: '/article/$slug'
       path: '/article/$slug'
@@ -511,6 +531,7 @@ const rootRouteChildren: RootRouteChildren = {
   VideoRoute: VideoRouteWithChildren,
   ApiAgentRoute: ApiAgentRoute,
   ArticleSlugRoute: ArticleSlugRoute,
+  ChannelSlugRoute: ChannelSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
