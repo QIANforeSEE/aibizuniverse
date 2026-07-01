@@ -540,7 +540,9 @@ function AgenticAIHub() {
                   {t(p.title)}
                 </h4>
                 <p className="mt-3 text-sm text-muted-foreground">{t(p.excerpt)}</p>
+                <TopicTags slug={p.slug} current={topic} t={t} />
               </Link>
+
             ))}
           </div>
         </div>
