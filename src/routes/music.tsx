@@ -4,14 +4,16 @@ import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { audios } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { audioThumbs, str } from "@/lib/thumbs";
+import { buildStaticHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/music")({
-  head: () => ({
-    meta: [
-      { title: "Music · AI商业宇宙 · AI Business Universe" },
-      { name: "description", content: "AI 原生环境音乐 · AI Native Music by AI Business Universe." },
-    ],
-  }),
+  head: () =>
+    buildStaticHead({
+      path: "/music",
+      title: "Music · 音乐 — AI商业宇宙 · AI Business Universe",
+      description:
+        "AI 原生环境音乐、写作与深度阅读音场 · AI-native ambient music and soundscapes for writing and deep reading.",
+    }),
   component: MusicPage,
 });
 
