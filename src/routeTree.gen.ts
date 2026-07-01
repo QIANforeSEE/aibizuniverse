@@ -9,9 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VideoRouteImport } from './routes/video'
 import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as PlaybooksRouteImport } from './routes/playbooks'
+import { Route as MusicRouteImport } from './routes/music'
 import { Route as KeyPlayersRouteImport } from './routes/key-players'
 import { Route as ConsultingRouteImport } from './routes/consulting'
 import { Route as AnalysisRouteImport } from './routes/analysis'
@@ -19,8 +21,16 @@ import { Route as AiNowRouteImport } from './routes/ai-now'
 import { Route as AgentRouteImport } from './routes/agent'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as VideoSlugRouteImport } from './routes/video.$slug'
+import { Route as MusicSlugRouteImport } from './routes/music.$slug'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as ApiAgentRouteImport } from './routes/api/agent'
 
+const VideoRoute = VideoRouteImport.update({
+  id: '/video',
+  path: '/video',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrendsRoute = TrendsRouteImport.update({
   id: '/trends',
   path: '/trends',
@@ -34,6 +44,11 @@ const ReportsRoute = ReportsRouteImport.update({
 const PlaybooksRoute = PlaybooksRouteImport.update({
   id: '/playbooks',
   path: '/playbooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MusicRoute = MusicRouteImport.update({
+  id: '/music',
+  path: '/music',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KeyPlayersRoute = KeyPlayersRouteImport.update({
@@ -71,6 +86,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VideoSlugRoute = VideoSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => VideoRoute,
+} as any)
+const MusicSlugRoute = MusicSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => MusicRoute,
+} as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAgentRoute = ApiAgentRouteImport.update({
   id: '/api/agent',
   path: '/api/agent',
@@ -85,10 +115,15 @@ export interface FileRoutesByFullPath {
   '/analysis': typeof AnalysisRoute
   '/consulting': typeof ConsultingRoute
   '/key-players': typeof KeyPlayersRoute
+  '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
   '/reports': typeof ReportsRoute
   '/trends': typeof TrendsRoute
+  '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/music/$slug': typeof MusicSlugRoute
+  '/video/$slug': typeof VideoSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -98,10 +133,15 @@ export interface FileRoutesByTo {
   '/analysis': typeof AnalysisRoute
   '/consulting': typeof ConsultingRoute
   '/key-players': typeof KeyPlayersRoute
+  '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
   '/reports': typeof ReportsRoute
   '/trends': typeof TrendsRoute
+  '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/music/$slug': typeof MusicSlugRoute
+  '/video/$slug': typeof VideoSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -112,10 +152,15 @@ export interface FileRoutesById {
   '/analysis': typeof AnalysisRoute
   '/consulting': typeof ConsultingRoute
   '/key-players': typeof KeyPlayersRoute
+  '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
   '/reports': typeof ReportsRoute
   '/trends': typeof TrendsRoute
+  '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/music/$slug': typeof MusicSlugRoute
+  '/video/$slug': typeof VideoSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -127,10 +172,15 @@ export interface FileRouteTypes {
     | '/analysis'
     | '/consulting'
     | '/key-players'
+    | '/music'
     | '/playbooks'
     | '/reports'
     | '/trends'
+    | '/video'
     | '/api/agent'
+    | '/article/$slug'
+    | '/music/$slug'
+    | '/video/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -140,10 +190,15 @@ export interface FileRouteTypes {
     | '/analysis'
     | '/consulting'
     | '/key-players'
+    | '/music'
     | '/playbooks'
     | '/reports'
     | '/trends'
+    | '/video'
     | '/api/agent'
+    | '/article/$slug'
+    | '/music/$slug'
+    | '/video/$slug'
   id:
     | '__root__'
     | '/'
@@ -153,10 +208,15 @@ export interface FileRouteTypes {
     | '/analysis'
     | '/consulting'
     | '/key-players'
+    | '/music'
     | '/playbooks'
     | '/reports'
     | '/trends'
+    | '/video'
     | '/api/agent'
+    | '/article/$slug'
+    | '/music/$slug'
+    | '/video/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -167,14 +227,24 @@ export interface RootRouteChildren {
   AnalysisRoute: typeof AnalysisRoute
   ConsultingRoute: typeof ConsultingRoute
   KeyPlayersRoute: typeof KeyPlayersRoute
+  MusicRoute: typeof MusicRouteWithChildren
   PlaybooksRoute: typeof PlaybooksRoute
   ReportsRoute: typeof ReportsRoute
   TrendsRoute: typeof TrendsRoute
+  VideoRoute: typeof VideoRouteWithChildren
   ApiAgentRoute: typeof ApiAgentRoute
+  ArticleSlugRoute: typeof ArticleSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/video': {
+      id: '/video'
+      path: '/video'
+      fullPath: '/video'
+      preLoaderRoute: typeof VideoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/trends': {
       id: '/trends'
       path: '/trends'
@@ -194,6 +264,13 @@ declare module '@tanstack/react-router' {
       path: '/playbooks'
       fullPath: '/playbooks'
       preLoaderRoute: typeof PlaybooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/music': {
+      id: '/music'
+      path: '/music'
+      fullPath: '/music'
+      preLoaderRoute: typeof MusicRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/key-players': {
@@ -245,6 +322,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/video/$slug': {
+      id: '/video/$slug'
+      path: '/$slug'
+      fullPath: '/video/$slug'
+      preLoaderRoute: typeof VideoSlugRouteImport
+      parentRoute: typeof VideoRoute
+    }
+    '/music/$slug': {
+      id: '/music/$slug'
+      path: '/$slug'
+      fullPath: '/music/$slug'
+      preLoaderRoute: typeof MusicSlugRouteImport
+      parentRoute: typeof MusicRoute
+    }
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/agent': {
       id: '/api/agent'
       path: '/api/agent'
@@ -255,6 +353,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface MusicRouteChildren {
+  MusicSlugRoute: typeof MusicSlugRoute
+}
+
+const MusicRouteChildren: MusicRouteChildren = {
+  MusicSlugRoute: MusicSlugRoute,
+}
+
+const MusicRouteWithChildren = MusicRoute._addFileChildren(MusicRouteChildren)
+
+interface VideoRouteChildren {
+  VideoSlugRoute: typeof VideoSlugRoute
+}
+
+const VideoRouteChildren: VideoRouteChildren = {
+  VideoSlugRoute: VideoSlugRoute,
+}
+
+const VideoRouteWithChildren = VideoRoute._addFileChildren(VideoRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -263,10 +381,13 @@ const rootRouteChildren: RootRouteChildren = {
   AnalysisRoute: AnalysisRoute,
   ConsultingRoute: ConsultingRoute,
   KeyPlayersRoute: KeyPlayersRoute,
+  MusicRoute: MusicRouteWithChildren,
   PlaybooksRoute: PlaybooksRoute,
   ReportsRoute: ReportsRoute,
   TrendsRoute: TrendsRoute,
+  VideoRoute: VideoRouteWithChildren,
   ApiAgentRoute: ApiAgentRoute,
+  ArticleSlugRoute: ArticleSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

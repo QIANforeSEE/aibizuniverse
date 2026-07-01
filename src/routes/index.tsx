@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, ArrowRight, Sparkles, TrendingUp, Zap, Play } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Sparkles, TrendingUp, Zap, Play, Headphones } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import {
   signals,
@@ -9,13 +9,20 @@ import {
   reports,
   consultingServices,
   suggestedQuestions,
+  videos,
+  audios,
 } from "@/lib/mock-data";
+import heroBanner from "@/assets/hero-banner.jpg";
 import editoRobot from "@/assets/edito-robot.jpg";
 import editoHumanPlus from "@/assets/edito-humanplus.jpg";
 import editoCathedral from "@/assets/edito-cathedral.jpg";
 import editoHand from "@/assets/edito-hand.jpg";
 import editoMist from "@/assets/edito-mist.jpg";
 import editoChip from "@/assets/edito-chip.jpg";
+import videoThumb1 from "@/assets/video-thumb-1.jpg";
+import videoThumb2 from "@/assets/video-thumb-2.jpg";
+import audioThumb1 from "@/assets/audio-thumb-1.jpg";
+import audioThumb2 from "@/assets/audio-thumb-2.jpg";
 
 
 export const Route = createFileRoute("/")({
@@ -54,10 +61,13 @@ const accentBorder = {
 function Home() {
   return (
     <SiteLayout>
+      <TopBanner />
       <Hero />
       <SignalStrip />
-      <HumanPlusFilm />
       <FeaturedAnalysis />
+      <VideoRow />
+      <HumanPlusFilm />
+      <AudioRow />
       <VisualField />
       <GrowthSystem />
       <KeyPlayersRadar />
@@ -66,6 +76,70 @@ function Home() {
       <AgentEntry />
       <Newsletter />
     </SiteLayout>
+  );
+}
+
+/* ---------- TOP BANNER (full-bleed cinematic) ---------- */
+
+function TopBanner() {
+  return (
+    <section className="relative overflow-hidden border-b border-border bg-foreground text-background">
+      <img
+        src={heroBanner}
+        alt="AI Business Universe — cinematic cover"
+        width={1920}
+        height={1024}
+        className="h-[62vh] min-h-[420px] w-full object-cover object-right lg:h-[78vh]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/85 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
+
+      <div className="pointer-events-none absolute inset-0 mx-auto flex max-w-[1400px] flex-col justify-between px-6 py-10 lg:px-10 lg:py-14">
+        <div className="pointer-events-auto flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-background/80">
+          <span className="rounded-full bg-lime px-3 py-1 text-foreground">Issue 03 · 2026</span>
+          <span className="hidden h-px flex-1 bg-background/25 md:block" />
+          <span className="hidden md:inline">AI Business Growth Intelligence · 全球版</span>
+          <span className="flex items-center gap-1.5 text-lime">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-lime" /> LIVE
+          </span>
+        </div>
+
+        <div className="pointer-events-auto max-w-3xl">
+          <div className="text-[12px] font-semibold uppercase tracking-[0.28em] text-lime">
+            封面故事 · Cover Story
+          </div>
+          <h1 className="mt-4 font-display text-[10vw] font-bold leading-[0.9] tracking-[-0.03em] text-background sm:text-6xl lg:text-[104px]">
+            AI 商业宇宙,<br />
+            <span className="text-lime">正在诞生。</span>
+          </h1>
+          <p className="mt-6 max-w-2xl text-base text-background/80 lg:text-lg">
+            这是一份关于 AI 商业世界的现场调查。 从模型、Agent、品牌到组织,<br className="hidden lg:block" />
+            我们记录正在被重写的商业秩序 —— 并把它翻译成企业可以行动的语言。
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              to="/article/$slug"
+              params={{ slug: "2026-ai-operating-system" }}
+              className="inline-flex items-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-foreground transition-transform hover:-translate-y-0.5"
+            >
+              阅读封面故事 <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/video"
+              className="inline-flex items-center gap-2 rounded-full border border-background/40 px-6 py-3 text-sm font-semibold text-background hover:bg-background hover:text-foreground"
+            >
+              <Play className="h-4 w-4" /> 进入视频频道
+            </Link>
+            <Link
+              to="/music"
+              className="inline-flex items-center gap-2 rounded-full border border-background/40 px-6 py-3 text-sm font-semibold text-background hover:bg-background hover:text-foreground"
+            >
+              <Headphones className="h-4 w-4" /> 音乐 & 播客
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -265,8 +339,10 @@ function FeaturedAnalysis() {
 
         <div className="mt-14 grid gap-8 lg:grid-cols-3">
           {featured.map((f, idx) => (
-            <article
+            <Link
               key={f.id}
+              to="/article/$slug"
+              params={{ slug: f.slug }}
               className={
                 "group relative flex flex-col rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[10px_10px_0_0_var(--color-foreground)] " +
                 (idx === 0 ? "lg:col-span-2 lg:row-span-1" : "")
@@ -281,7 +357,7 @@ function FeaturedAnalysis() {
 
               <h3
                 className={
-                  "mt-6 font-display font-bold leading-[1.1] tracking-tight text-foreground " +
+                  "mt-6 font-display font-bold leading-[1.1] tracking-tight text-foreground group-hover:text-violet " +
                   (idx === 0 ? "text-4xl lg:text-5xl" : "text-2xl")
                 }
               >
@@ -296,7 +372,7 @@ function FeaturedAnalysis() {
                     Key Takeaways · 核心结论
                   </div>
                   <ul className="mt-3 space-y-2">
-                    {f.takeaways.map((t, i) => (
+                    {f.takeaways.map((t: string, i: number) => (
                       <li key={i} className="flex gap-3 text-[13px] leading-snug text-foreground">
                         <span className="font-mono text-muted-foreground">0{i + 1}</span>
                         <span>{t}</span>
@@ -310,7 +386,7 @@ function FeaturedAnalysis() {
                 <span>{f.author} · {f.readMin} 分钟阅读</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>
@@ -850,6 +926,170 @@ function VisualField() {
               ))}
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- VIDEO ROW ---------- */
+
+const videoThumbMap = { v1: videoThumb1, v2: videoThumb2 } as const;
+const audioThumbMap = { a1: audioThumb1, a2: audioThumb2 } as const;
+const chipClass = {
+  lime: "bg-lime text-foreground",
+  violet: "bg-violet text-white",
+  signal: "bg-signal text-foreground",
+  alert: "bg-alert text-white",
+} as const;
+
+function VideoRow() {
+  const [hero, ...rest] = videos;
+  return (
+    <section className="border-b border-border bg-foreground text-background">
+      <div className="mx-auto max-w-[1400px] px-6 py-20 lg:px-10 lg:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-background/60">
+              <span className="font-mono">§ 02.5</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-lime" />
+              <span>视频频道 / Video Channel</span>
+            </div>
+            <h2 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight lg:text-6xl">
+              用镜头讲述 <span className="text-lime">AI 商业</span>。
+            </h2>
+          </div>
+          <Link to="/video" className="text-sm font-semibold text-background/80 hover:text-lime">
+            进入视频频道 →
+          </Link>
+        </div>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+          <Link
+            to="/video/$slug"
+            params={{ slug: hero.slug }}
+            className="group relative block overflow-hidden rounded-2xl"
+          >
+            <img
+              src={videoThumbMap[hero.thumb]}
+              alt={hero.title}
+              loading="lazy"
+              width={1280}
+              height={720}
+              className="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+            <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-lime px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-foreground">
+              <Play className="h-3 w-3 fill-current" /> {hero.category}
+            </div>
+            <div className="absolute inset-x-5 bottom-5">
+              <h3 className="font-display text-2xl font-bold leading-tight text-background lg:text-4xl">
+                {hero.title}
+              </h3>
+              <div className="mt-3 flex items-center gap-3 text-[11px] font-mono text-background/70">
+                <span>{hero.duration}</span>
+                <span>·</span>
+                <span>观看正片 →</span>
+              </div>
+            </div>
+          </Link>
+
+          <div className="flex flex-col gap-4">
+            {rest.map((v) => (
+              <Link
+                key={v.id}
+                to="/video/$slug"
+                params={{ slug: v.slug }}
+                className="group flex gap-4 rounded-xl border border-background/10 bg-background/[0.03] p-3 transition-colors hover:border-background/30 hover:bg-background/[0.08]"
+              >
+                <div className="relative aspect-video w-32 shrink-0 overflow-hidden rounded-md sm:w-40">
+                  <img
+                    src={videoThumbMap[v.thumb]}
+                    alt={v.title}
+                    loading="lazy"
+                    width={640}
+                    height={360}
+                    className="h-full w-full object-cover"
+                  />
+                  <span className="absolute bottom-1 right-1 rounded-sm bg-black/70 px-1.5 py-0.5 font-mono text-[10px]">
+                    {v.duration}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <div className={"inline-block rounded-sm px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest " + chipClass[v.color]}>
+                    {v.category}
+                  </div>
+                  <div className="mt-2 font-display text-[15px] font-semibold leading-snug text-background group-hover:text-lime">
+                    {v.title}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- AUDIO ROW ---------- */
+
+function AudioRow() {
+  return (
+    <section className="border-b border-border">
+      <div className="mx-auto max-w-[1400px] px-6 py-20 lg:px-10 lg:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <SectionLabel index="§ 04.5" label="音乐 & 播客" en="Sound Channel" color="signal" />
+            <h2 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight lg:text-6xl">
+              用耳朵理解 <span className="text-signal">AI 商业</span>。
+            </h2>
+            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+              深度播客、创始人音频札记、AI 原生环境音乐 —— 每周更新。
+            </p>
+          </div>
+          <Link to="/music" className="text-sm font-semibold text-foreground hover:text-signal">
+            进入音频频道 →
+          </Link>
+        </div>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {audios.map((a) => (
+            <Link
+              key={a.id}
+              to="/music/$slug"
+              params={{ slug: a.slug }}
+              className="group block overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)]"
+            >
+              <div className="relative aspect-square overflow-hidden">
+                <img
+                  src={audioThumbMap[a.thumb]}
+                  alt={a.title}
+                  loading="lazy"
+                  width={640}
+                  height={640}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground shadow-lg">
+                  <Play className="h-4 w-4 fill-current" />
+                </span>
+                <span className="absolute right-3 top-3 rounded bg-background/90 px-2 py-0.5 font-mono text-[10px] text-foreground">
+                  {a.duration}
+                </span>
+              </div>
+              <div className="p-4">
+                <div className={"inline-block rounded-sm px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest " + chipClass[a.color]}>
+                  {a.category}
+                </div>
+                <div className="mt-3 font-display text-base font-semibold leading-snug group-hover:text-violet">
+                  {a.title}
+                </div>
+                <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground line-clamp-2">
+                  {a.excerpt}
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
