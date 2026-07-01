@@ -1,10 +1,11 @@
-import { createFileRoute, Link, getRouteApi } from "@tanstack/react-router";
+import { createFileRoute, Link, getRouteApi, useNavigate } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { SITE_NAME, SITE_URL, absUrl } from "@/lib/seo";
 import { useT, useLang, type Localized } from "@/lib/i18n";
 import { featured, signals, videos, audios, reports } from "@/lib/mock-data";
+
 
 const PATH = "/agentic-ai";
 const TITLE_CN = "Agentic AI 智能体经济中枢";
