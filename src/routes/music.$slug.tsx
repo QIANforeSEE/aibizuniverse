@@ -4,6 +4,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { audios } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { audioThumbs, str } from "@/lib/thumbs";
+import { buildDetailHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/music/$slug")({
   loader: ({ params }) => {
@@ -11,15 +12,17 @@ export const Route = createFileRoute("/music/$slug")({
     if (!a) throw notFound();
     return a;
   },
-  head: ({ loaderData }) => {
-    const title = str(loaderData?.title, "Audio");
-    const desc = str(loaderData?.excerpt, "");
-    return {
-      meta: [
-        { title: `${title} · AI Business Universe` },
-        { name: "description", content: desc },
-      ],
-    };
+  head: ({ params, loaderData }) => {
+    if (!loaderData) {
+      return { meta: [{ title: `Music · AI商业宇宙 · AI Business Universe` }] };
+    }
+    return buildDetailHead({
+      path: `/music/${params.slug}`,
+      title: loaderData.title,
+      description: loaderData.excerpt,
+      image: audioThumbs[loaderData.thumb],
+      type: "music.song",
+    });
   },
   notFoundComponent: () => (
     <SiteLayout>
