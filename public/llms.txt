@@ -1,0 +1,38 @@
+# AI商业宇宙 · AI Business Universe
+
+> AI+ 时代商业增长智库 · AI Business Growth Intelligence Platform. Editorial analysis, trend reports, playbooks, consulting and an interactive AI business agent for CEOs, CMOs and advertisers.
+
+The site publishes bilingual (中文 / English) coverage of AI commercialization: platform moves, Key Player scorecards, growth methodologies, and downloadable reports.
+
+## Pages
+
+- [Home](/): Cover stories, latest AI business signals, featured analysis and channel index.
+- [AI Now](/ai-now): Real-time global AI business signals and platform moves.
+- [Business Analysis](/analysis): Deep AI business analysis and strategic teardowns.
+- [Trends](/trends): Structural shifts in AI commercialization, platforms and growth engines.
+- [Key Players](/key-players): Strategic scorecards for global AI companies (OpenAI, Anthropic, ByteDance, DeepSeek, etc.).
+- [Reports](/reports): Flagship trend reports, whitepapers and growth playbooks.
+- [Playbooks](/playbooks): AI growth methodologies for CEOs, CMOs and advertisers.
+- [Consulting](/consulting): AI growth diagnostic, executive workshops, Agent co-build camps, transformation retainers.
+- [Video](/video): AI business documentaries, keynotes, roundtables and feature films.
+- [Podcast](/podcast): CEO briefings, founder audio notes and the Growth Radio.
+- [Music](/music): AI-native ambient soundscapes.
+- [AI Business Universe Agent](/agent): Interactive AI advisor — ask a business question, get structured answers and recommended reading.
+- [About](/about): Editorial mission and how AI Business Universe is built.
+
+## Featured Articles
+
+- [2026: AI moves from tool to business operating system](/article/2026-ai-operating-system)
+- [How brand advertisers rebuild their growth model with AI](/article/brand-growth-ai-rebuild)
+- [GEO & AEO: the next war for enterprise search visibility](/article/geo-aeo-search-war)
+
+## Featured Reports
+
+- [2026 AI Business Trends Report](/reports/2026-ai-business-trends)
+- [The Enterprise AI Agent Playbook](/reports/enterprise-ai-agent-playbook)
+- [GEO / AEO Growth Handbook](/reports/geo-aeo-growth-handbook)
+- [The AI Brand-as-Media Report](/reports/ai-brand-as-media-report)
+
+## Optional
+
+- [Sitemap](/sitemap.xml): Machine-readable index of every public route.
