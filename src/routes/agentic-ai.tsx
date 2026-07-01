@@ -303,8 +303,71 @@ function AgenticAIHub() {
         </div>
       </section>
 
+      {/* FILTER BAR */}
+      <section className="sticky top-0 z-30 border-b border-border/60 bg-background/95 backdrop-blur">
+        <div className="mx-auto max-w-[1400px] px-6 py-6 lg:px-10">
+          <div className="flex flex-col gap-5">
+            <FilterRow
+              label={pick("内容类型", "Content type")}
+              param="type"
+              current={type}
+              options={TYPE_VALUES}
+              labels={TYPE_LABELS}
+              t={t}
+            />
+            <FilterRow
+              label={pick("主题", "Topic")}
+              param="topic"
+              current={topic}
+              options={TOPIC_VALUES}
+              labels={TOPIC_LABELS}
+              t={t}
+            />
+            <div className="flex items-center justify-between text-xs uppercase tracking-widest text-muted-foreground">
+              <span>
+                {totalCount} {pick("条策展内容", "curated items")}
+                {(type !== "all" || topic !== "all") && (
+                  <>
+                    {" · "}
+                    <Link
+                      to="/agentic-ai"
+                      search={{ type: "all", topic: "all" }}
+                      className="font-semibold text-foreground underline underline-offset-4 hover:text-violet"
+                    >
+                      {pick("清除筛选", "Clear filters")}
+                    </Link>
+                  </>
+                )}
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {totalCount === 0 && (
+        <section className="border-b border-border/60">
+          <div className="mx-auto max-w-[1400px] px-6 py-24 text-center lg:px-10">
+            <p className="font-display text-2xl font-semibold">
+              {pick(
+                "当前筛选下暂无策展内容。",
+                "No curated items match these filters.",
+              )}
+            </p>
+            <Link
+              to="/agentic-ai"
+              search={{ type: "all", topic: "all" }}
+              className="mt-6 inline-flex rounded-full border border-border px-6 py-3 text-sm font-semibold hover:border-foreground"
+            >
+              {pick("重置筛选 →", "Reset filters →")}
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* FEATURED ANALYSIS */}
+      {showAnalysis && curatedFeatured.length > 0 && (
       <section className="border-b border-border/60">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <SectionLabel index="§ 02" label="深度分析" en="Featured Analysis" color="violet" />
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
