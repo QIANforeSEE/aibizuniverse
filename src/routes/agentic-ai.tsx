@@ -554,3 +554,48 @@ function AgenticAIHub() {
     </SiteLayout>
   );
 }
+
+function FilterRow<K extends "type" | "topic", V extends string>({
+  label,
+  param,
+  current,
+  options,
+  labels,
+  t,
+}: {
+  label: string;
+  param: K;
+  current: V;
+  options: readonly V[];
+  labels: Record<V, Localized>;
+  t: (v: Localized) => string;
+}) {
+  return (
+    <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-6">
+      <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+        {label}
+      </span>
+      <div className="flex flex-wrap gap-2">
+        {options.map((opt) => {
+          const active = opt === current;
+          return (
+            <Link
+              key={opt}
+              to="/agentic-ai"
+              search={(prev) => ({ ...prev, [param]: opt } as never)}
+              className={
+                "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-widest transition " +
+                (active
+                  ? "border-foreground bg-foreground text-background"
+                  : "border-border text-muted-foreground hover:border-foreground hover:text-foreground")
+              }
+            >
+              {t(labels[opt])}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
