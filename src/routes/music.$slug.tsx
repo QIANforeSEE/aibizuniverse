@@ -44,7 +44,7 @@ function MusicDetail() {
         </Link>
 
         <div className="mt-10 grid gap-10 md:grid-cols-[320px_1fr]">
-          <img src={audioThumbs[a.thumb]} alt={str(a.title)} width={640} height={640} className="aspect-square w-full rounded-lg object-cover shadow-xl" />
+          <img src={audioThumbs[a.thumb as keyof typeof audioThumbs]} alt={str(a.title)} width={640} height={640} className="aspect-square w-full rounded-lg object-cover shadow-xl" />
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-signal">{t(a.category)}</div>
             <h1 className="mt-3 font-display text-3xl leading-tight lg:text-5xl">{t(a.title)}</h1>
