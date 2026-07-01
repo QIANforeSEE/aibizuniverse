@@ -189,17 +189,24 @@ function TopicTags({
   current: (typeof TOPIC_VALUES)[number];
   t: (v: Localized) => string;
 }) {
+  const navigate = useNavigate({ from: "/agentic-ai" });
   const tags = TOPIC_TAGS[slug] ?? [];
   if (tags.length === 0) return null;
   return (
-    <div className="mt-4 flex flex-wrap gap-1.5" onClick={(e) => e.stopPropagation()}>
+    <div className="mt-4 flex flex-wrap gap-1.5">
       {tags.map((tag) => {
         const active = current === tag;
         return (
-          <Link
+          <button
             key={tag}
-            to="/agentic-ai"
-            search={((prev: Record<string, string>) => ({ ...prev, topic: active ? "all" : tag })) as never}
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              navigate({
+                search: (prev) => ({ ...prev, topic: active ? "all" : tag }),
+              });
+            }}
             className={
               "rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest transition " +
               (active
@@ -208,12 +215,13 @@ function TopicTags({
             }
           >
             #{t(TOPIC_LABELS[tag])}
-          </Link>
+          </button>
         );
       })}
     </div>
   );
 }
+
 
 
 function AgenticAIHub() {
