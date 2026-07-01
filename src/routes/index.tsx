@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, ArrowRight, Sparkles, TrendingUp, Zap } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Sparkles, TrendingUp, Zap, Play } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import {
   signals,
@@ -10,6 +10,13 @@ import {
   consultingServices,
   suggestedQuestions,
 } from "@/lib/mock-data";
+import editoRobot from "@/assets/edito-robot.jpg";
+import editoHumanPlus from "@/assets/edito-humanplus.jpg";
+import editoCathedral from "@/assets/edito-cathedral.jpg";
+import editoHand from "@/assets/edito-hand.jpg";
+import editoMist from "@/assets/edito-mist.jpg";
+import editoChip from "@/assets/edito-chip.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -49,7 +56,9 @@ function Home() {
     <SiteLayout>
       <Hero />
       <SignalStrip />
+      <HumanPlusFilm />
       <FeaturedAnalysis />
+      <VisualField />
       <GrowthSystem />
       <KeyPlayersRadar />
       <ReportsRow />
@@ -66,6 +75,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border">
       <div className="absolute inset-0 grid-lines opacity-60" />
+
       <div className="absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-lime/40 blur-3xl" />
       <div className="absolute -bottom-40 left-[-10%] h-[420px] w-[420px] rounded-full bg-violet/25 blur-3xl" />
       <div className="absolute right-1/3 top-1/2 h-[200px] w-[200px] rounded-full bg-signal/30 blur-3xl" />
@@ -655,6 +665,191 @@ function Newsletter() {
               订阅 · Subscribe <ArrowUpRight className="h-4 w-4" />
             </button>
           </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- HUMAN+ CINEMATIC FILM SECTION ---------- */
+
+function HumanPlusFilm() {
+  return (
+    <section className="relative overflow-hidden border-b border-border bg-foreground text-background">
+      <div className="grid lg:grid-cols-[1.1fr_1fr]">
+        <div className="relative aspect-[4/5] lg:aspect-auto lg:min-h-[720px]">
+          <img
+            src={editoRobot}
+            alt="HUMAN+ · AI 与人的融合"
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="lazy"
+            width={1280}
+            height={1600}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-foreground/60" />
+          <div className="absolute left-6 top-6 flex items-center gap-2 rounded-full bg-background/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.24em] text-background backdrop-blur-md">
+            <Play className="h-3 w-3 fill-lime text-lime" /> Film · 01 / HUMAN+
+          </div>
+          <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between text-[11px] uppercase tracking-[0.2em] text-background/70">
+            <span>Ch.01 · The New Species</span>
+            <span className="font-mono">00 : 02 : 47</span>
+          </div>
+        </div>
+
+        <div className="relative flex flex-col justify-between p-10 lg:p-16">
+          <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-background/60">
+            <span className="font-mono">§ 01.5</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-lime" />
+            <span>Human + · 人机共生</span>
+          </div>
+
+          <div className="my-12 lg:my-0">
+            <h2 className="font-display text-[10vw] font-bold leading-[0.9] tracking-[-0.04em] sm:text-6xl lg:text-[92px]">
+              我们不再是<br />
+              <span className="text-lime">单一物种</span>。
+            </h2>
+            <p className="mt-8 max-w-lg text-lg leading-relaxed text-background/75">
+              HUMAN+ 不是科幻，而是正在发生的商业现实。
+              当每一个个体都嵌入 AI，每一家公司都在被 Agent 重写——
+              品牌、组织、创造力的边界，都需要被重新想象。
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-6 border-t border-background/15 pt-6">
+            {[
+              { k: "AI Native", v: "62%", d: "全球企业已部署" },
+              { k: "Agent Ops", v: "3.4x", d: "生产效率提升" },
+              { k: "Human+", v: "2029", d: "融合临界点" },
+            ].map((s) => (
+              <div key={s.k}>
+                <div className="text-[10px] uppercase tracking-widest text-background/50">{s.k}</div>
+                <div className="mt-2 font-display text-3xl font-bold text-lime">{s.v}</div>
+                <div className="mt-1 text-[11px] text-background/60">{s.d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- VISUAL FIELD · IMAGE GALLERY ---------- */
+
+function VisualField() {
+  const tiles = [
+    {
+      src: editoHumanPlus,
+      title: "神经界面",
+      en: "Neural Interface",
+      tag: "HUMAN+",
+      color: "violet" as const,
+      span: "lg:col-span-2 lg:row-span-2",
+      ratio: "aspect-[4/5] lg:aspect-auto",
+    },
+    {
+      src: editoCathedral,
+      title: "数据殿堂",
+      en: "The Data Cathedral",
+      tag: "INFRA",
+      color: "lime" as const,
+      span: "lg:col-span-2",
+      ratio: "aspect-[16/9]",
+    },
+    {
+      src: editoHand,
+      title: "AI 之触",
+      en: "The Touch",
+      tag: "AGENT",
+      color: "signal" as const,
+      span: "lg:col-span-1",
+      ratio: "aspect-[4/5]",
+    },
+    {
+      src: editoMist,
+      title: "未来行者",
+      en: "The Walker",
+      tag: "FUTURE",
+      color: "alert" as const,
+      span: "lg:col-span-1",
+      ratio: "aspect-[4/5]",
+    },
+  ];
+
+  return (
+    <section className="border-b border-border bg-paper">
+      <div className="mx-auto max-w-[1400px] px-6 py-20 lg:px-10 lg:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <SectionLabel index="§ 03.5" label="视觉场 · Visual Field" en="AI Futures Imagery" color="violet" />
+            <h2 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight lg:text-6xl">
+              一场关于 <span className="text-violet">AI 未来</span> 的
+              <br />
+              视觉调查。
+            </h2>
+          </div>
+          <p className="max-w-sm text-[13px] leading-relaxed text-muted-foreground">
+            从机器、界面、身体到城市——
+            AI 商业宇宙以图像捕捉正在成形的下一个时代。
+          </p>
+        </div>
+
+        <div className="mt-14 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:auto-rows-[260px]">
+          {tiles.map((t) => (
+            <figure
+              key={t.title}
+              className={
+                "group relative overflow-hidden rounded-2xl border border-border bg-foreground " +
+                t.span +
+                " " +
+                t.ratio
+              }
+            >
+              <img
+                src={t.src}
+                alt={t.title}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5 text-background">
+                <div>
+                  <div className={"inline-flex rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.2em] " + accentClass[t.color]}>
+                    {t.tag}
+                  </div>
+                  <div className="mt-2 font-display text-2xl font-bold leading-tight">{t.title}</div>
+                  <div className="text-[11px] uppercase tracking-[0.18em] text-background/70">{t.en}</div>
+                </div>
+                <ArrowUpRight className="h-5 w-5 opacity-70 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:opacity-100" />
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        {/* Marquee band */}
+        <div className="mt-16 overflow-hidden rounded-2xl border-2 border-foreground bg-foreground text-background">
+          <div className="flex items-center gap-6 whitespace-nowrap py-4">
+            <div className="flex animate-[scroll_50s_linear_infinite] gap-10 px-6 font-display text-3xl font-bold lg:text-5xl">
+              {[
+                "HUMAN +",
+                "AI NATIVE",
+                "AGENT ECONOMY",
+                "POST-SEARCH",
+                "CREATOR × MACHINE",
+                "NEW BUSINESS OS",
+                "HUMAN +",
+                "AI NATIVE",
+                "AGENT ECONOMY",
+                "POST-SEARCH",
+                "CREATOR × MACHINE",
+                "NEW BUSINESS OS",
+              ].map((w, i) => (
+                <span key={i} className={i % 2 === 0 ? "text-background" : "text-lime"}>
+                  {w} <span className="text-signal">✦</span>
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

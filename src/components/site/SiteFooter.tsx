@@ -1,4 +1,6 @@
 import { Link } from "@tanstack/react-router";
+import logoAsset from "@/assets/logo.asset.json";
+
 
 const COLS = [
   {
@@ -34,7 +36,7 @@ export function SiteFooter() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-md bg-lime text-foreground font-display font-bold">A</span>
+              <img src={logoAsset.url} alt="AI商业宇宙" className="h-10 w-10 rounded-md bg-background object-contain p-1" width={40} height={40} />
               <div>
                 <div className="font-display text-lg font-bold">AI商业宇宙</div>
                 <div className="text-[11px] uppercase tracking-[0.2em] text-background/60">AI Business Universe</div>
