@@ -460,9 +460,12 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* PODCASTS */}
+      {showPodcast && curatedPodcasts.length > 0 && (
       <section className="border-b border-border/60 bg-muted/30">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <div className="flex items-end justify-between">
             <SectionLabel index="§ 05" label="Agent 播客" en="Agent Podcasts" color="lime" />
