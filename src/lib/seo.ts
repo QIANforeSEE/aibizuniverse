@@ -63,3 +63,30 @@ export function buildDetailHead(input: DetailSeoInput) {
     links: [{ rel: "canonical", href: url }],
   };
 }
+
+/** Simple static-route head: title/description strings, plus canonical + og. */
+export function buildStaticHead(input: {
+  path: string;
+  title: string;
+  description: string;
+  type?: "website" | "article";
+}) {
+  const url = absUrl(input.path);
+  const type = input.type ?? "website";
+  return {
+    meta: [
+      { title: input.title },
+      { name: "description", content: input.description },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:title", content: input.title },
+      { property: "og:description", content: input.description },
+      { property: "og:type", content: type },
+      { property: "og:url", content: url },
+      { property: "og:locale", content: "zh_CN" },
+      { property: "og:locale:alternate", content: "en_US" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: url }],
+  };
+}
+
