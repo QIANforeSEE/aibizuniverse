@@ -1,7 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, getRouteApi } from "@tanstack/react-router";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { z } from "zod";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { SITE_NAME, SITE_URL, absUrl } from "@/lib/seo";
-import { useT, useLang } from "@/lib/i18n";
+import { useT, useLang, type Localized } from "@/lib/i18n";
 import { featured, signals, videos, audios, reports } from "@/lib/mock-data";
 
 const PATH = "/agentic-ai";
@@ -29,7 +31,38 @@ const VIDEO_SLUGS = [
 ];
 const REPORT_SLUGS = ["enterprise-ai-agent-playbook", "2026-ai-business-trends"];
 
+// Topic tagging per slug — drives the topic filter chips.
+type Topic = "foundation" | "orchestration" | "deployment" | "economy";
+const TOPIC_TAGS: Record<string, Topic[]> = {
+  // Featured
+  "2026-ai-operating-system": ["foundation", "orchestration", "economy"],
+  "brand-growth-ai-rebuild": ["deployment", "economy"],
+  // Signals
+  "openai-agent-builder-pricing-cut": ["foundation", "economy"],
+  "coze-commerce-agent-launch": ["orchestration", "deployment", "economy"],
+  "minimax-multimodal-agent-brand": ["foundation", "deployment"],
+  // Videos
+  "agent-economy-roundtable": ["orchestration", "economy"],
+  "human-plus-manifest": ["economy"],
+  "founders-inside-the-agent-launch": ["deployment", "orchestration"],
+  "cmo-ai-native-keynote": ["deployment", "economy"],
+  // Reports
+  "enterprise-ai-agent-playbook": ["deployment", "orchestration"],
+  "2026-ai-business-trends": ["foundation", "orchestration", "deployment", "economy"],
+};
+
+const TYPE_VALUES = ["all", "analysis", "video", "podcast", "report"] as const;
+const TOPIC_VALUES = ["all", "foundation", "orchestration", "deployment", "economy"] as const;
+type ContentType = (typeof TYPE_VALUES)[number];
+
+const searchSchema = z.object({
+  type: fallback(z.enum(TYPE_VALUES), "all").default("all"),
+  topic: fallback(z.enum(TOPIC_VALUES), "all").default("all"),
+});
+
+
 export const Route = createFileRoute("/agentic-ai")({
+  validateSearch: zodValidator(searchSchema),
   head: () => {
     const url = absUrl(PATH);
     const curatedFeatured = featured.filter((f) => FEATURED_SLUGS.includes(f.slug));
@@ -123,15 +156,60 @@ export const Route = createFileRoute("/agentic-ai")({
   component: AgenticAIHub,
 });
 
+const routeApi = getRouteApi("/agentic-ai");
+
+const TYPE_LABELS: Record<ContentType, Localized> = {
+  all: { cn: "全部内容", en: "All" },
+  analysis: { cn: "分析", en: "Analysis" },
+  video: { cn: "视频", en: "Video" },
+  podcast: { cn: "播客", en: "Podcasts" },
+  report: { cn: "报告", en: "Reports" },
+};
+
+const TOPIC_LABELS: Record<(typeof TOPIC_VALUES)[number], Localized> = {
+  all: { cn: "全部主题", en: "All topics" },
+  foundation: { cn: "基础模型", en: "Foundation" },
+  orchestration: { cn: "Agent 编排", en: "Orchestration" },
+  deployment: { cn: "企业部署", en: "Deployment" },
+  economy: { cn: "Agent 经济", en: "Economy" },
+};
+
+function hasTopic(slug: string, topic: (typeof TOPIC_VALUES)[number]): boolean {
+  if (topic === "all") return true;
+  return (TOPIC_TAGS[slug] ?? []).includes(topic as Topic);
+}
+
 function AgenticAIHub() {
   const t = useT();
   const { pick } = useLang();
+  const { type, topic } = routeApi.useSearch();
 
-  const curatedFeatured = featured.filter((f) => FEATURED_SLUGS.includes(f.slug));
-  const curatedSignals = signals.filter((s) => SIGNAL_SLUGS.includes(s.slug));
-  const curatedVideos = videos.filter((v) => VIDEO_SLUGS.includes(v.slug));
-  const curatedPodcasts = audios.filter((a) => a.kind === "podcast");
-  const curatedReports = reports.filter((r) => REPORT_SLUGS.includes(r.slug));
+  const showAnalysis = type === "all" || type === "analysis";
+  const showVideo = type === "all" || type === "video";
+  const showPodcast = type === "all" || type === "podcast";
+  const showReport = type === "all" || type === "report";
+
+  const curatedFeatured = featured
+    .filter((f) => FEATURED_SLUGS.includes(f.slug))
+    .filter((f) => hasTopic(f.slug, topic));
+  const curatedSignals = signals
+    .filter((s) => SIGNAL_SLUGS.includes(s.slug))
+    .filter((s) => hasTopic(s.slug, topic));
+  const curatedVideos = videos
+    .filter((v) => VIDEO_SLUGS.includes(v.slug))
+    .filter((v) => hasTopic(v.slug, topic));
+  const curatedPodcasts = audios
+    .filter((a) => a.kind === "podcast")
+    .filter((a) => hasTopic(a.slug, topic) || topic === "all");
+  const curatedReports = reports
+    .filter((r) => REPORT_SLUGS.includes(r.slug))
+    .filter((r) => hasTopic(r.slug, topic));
+
+  const analysisCount = showAnalysis ? curatedFeatured.length + curatedSignals.length : 0;
+  const videoCount = showVideo ? curatedVideos.length : 0;
+  const podcastCount = showPodcast ? curatedPodcasts.length : 0;
+  const reportCount = showReport ? curatedReports.length : 0;
+  const totalCount = analysisCount + videoCount + podcastCount + reportCount;
 
   const pillars = [
     {
@@ -225,8 +303,71 @@ function AgenticAIHub() {
         </div>
       </section>
 
+      {/* FILTER BAR */}
+      <section className="sticky top-0 z-30 border-b border-border/60 bg-background/95 backdrop-blur">
+        <div className="mx-auto max-w-[1400px] px-6 py-6 lg:px-10">
+          <div className="flex flex-col gap-5">
+            <FilterRow
+              label={pick("内容类型", "Content type")}
+              param="type"
+              current={type}
+              options={TYPE_VALUES}
+              labels={TYPE_LABELS}
+              t={t}
+            />
+            <FilterRow
+              label={pick("主题", "Topic")}
+              param="topic"
+              current={topic}
+              options={TOPIC_VALUES}
+              labels={TOPIC_LABELS}
+              t={t}
+            />
+            <div className="flex items-center justify-between text-xs uppercase tracking-widest text-muted-foreground">
+              <span>
+                {totalCount} {pick("条策展内容", "curated items")}
+                {(type !== "all" || topic !== "all") && (
+                  <>
+                    {" · "}
+                    <Link
+                      to="/agentic-ai"
+                      search={{ type: "all", topic: "all" }}
+                      className="font-semibold text-foreground underline underline-offset-4 hover:text-violet"
+                    >
+                      {pick("清除筛选", "Clear filters")}
+                    </Link>
+                  </>
+                )}
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {totalCount === 0 && (
+        <section className="border-b border-border/60">
+          <div className="mx-auto max-w-[1400px] px-6 py-24 text-center lg:px-10">
+            <p className="font-display text-2xl font-semibold">
+              {pick(
+                "当前筛选下暂无策展内容。",
+                "No curated items match these filters.",
+              )}
+            </p>
+            <Link
+              to="/agentic-ai"
+              search={{ type: "all", topic: "all" }}
+              className="mt-6 inline-flex rounded-full border border-border px-6 py-3 text-sm font-semibold hover:border-foreground"
+            >
+              {pick("重置筛选 →", "Reset filters →")}
+            </Link>
+          </div>
+        </section>
+      )}
+
       {/* FEATURED ANALYSIS */}
+      {showAnalysis && curatedFeatured.length > 0 && (
       <section className="border-b border-border/60">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <SectionLabel index="§ 02" label="深度分析" en="Featured Analysis" color="violet" />
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
@@ -254,9 +395,12 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* SIGNALS */}
+      {showAnalysis && curatedSignals.length > 0 && (
       <section className="border-b border-border/60 bg-muted/30">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <SectionLabel index="§ 03" label="Agent 信号" en="Agent Signals" color="signal" />
           <div className="mt-8 divide-y divide-border rounded-2xl border border-border bg-background">
@@ -282,9 +426,12 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* VIDEOS */}
+      {showVideo && curatedVideos.length > 0 && (
       <section className="border-b border-border/60">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <div className="flex items-end justify-between">
             <SectionLabel index="§ 04" label="Agent 视频" en="Agent Video" color="alert" />
@@ -313,9 +460,12 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* PODCASTS */}
+      {showPodcast && curatedPodcasts.length > 0 && (
       <section className="border-b border-border/60 bg-muted/30">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <div className="flex items-end justify-between">
             <SectionLabel index="§ 05" label="Agent 播客" en="Agent Podcasts" color="lime" />
@@ -344,9 +494,12 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* REPORTS */}
+      {showReport && curatedReports.length > 0 && (
       <section className="border-b border-border/60">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <SectionLabel index="§ 06" label="Agent 研究报告" en="Agent Research" color="violet" />
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
@@ -374,9 +527,11 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* CTA */}
       <section className="bg-foreground text-background">
+
         <div className="mx-auto max-w-[1400px] px-6 py-20 lg:px-10 lg:py-28">
           <SectionLabel index="§ CTA" label="进入智能体" en="Enter the Agent" color="lime" />
           <h2 className="mt-6 font-display text-4xl font-bold leading-tight lg:text-6xl">
@@ -399,3 +554,48 @@ function AgenticAIHub() {
     </SiteLayout>
   );
 }
+
+function FilterRow<K extends "type" | "topic", V extends string>({
+  label,
+  param,
+  current,
+  options,
+  labels,
+  t,
+}: {
+  label: string;
+  param: K;
+  current: V;
+  options: readonly V[];
+  labels: Record<V, Localized>;
+  t: (v: Localized) => string;
+}) {
+  return (
+    <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:gap-6">
+      <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+        {label}
+      </span>
+      <div className="flex flex-wrap gap-2">
+        {options.map((opt) => {
+          const active = opt === current;
+          return (
+            <Link
+              key={opt}
+              to="/agentic-ai"
+              search={((prev: Record<string, string>) => ({ ...prev, [param]: opt })) as never}
+              className={
+                "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-widest transition " +
+                (active
+                  ? "border-foreground bg-foreground text-background"
+                  : "border-border text-muted-foreground hover:border-foreground hover:text-foreground")
+              }
+            >
+              {t(labels[opt])}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
