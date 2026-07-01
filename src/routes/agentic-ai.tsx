@@ -62,6 +62,7 @@ const searchSchema = z.object({
 
 
 export const Route = createFileRoute("/agentic-ai")({
+  validateSearch: zodValidator(searchSchema),
   head: () => {
     const url = absUrl(PATH);
     const curatedFeatured = featured.filter((f) => FEATURED_SLUGS.includes(f.slug));
