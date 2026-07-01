@@ -114,6 +114,29 @@ export function SiteHeader() {
         </div>
       </div>
 
+      {/* Channel bar — never collapses; horizontal scroll on narrow viewports */}
+      <div className="border-t border-border/60 bg-background">
+        <div className="mx-auto max-w-[1400px] overflow-x-auto px-6 lg:px-10">
+          <nav className="flex min-w-max items-center gap-1 py-2">
+            <span className="mr-2 shrink-0 text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+              {lang === "cn" ? "频道" : "Channels"}
+            </span>
+            {channels.map((c) => (
+              <Link
+                key={c.slug}
+                to="/channel/$slug"
+                params={{ slug: c.slug }}
+                className="whitespace-nowrap rounded-full px-3 py-1.5 text-[12px] font-semibold text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
+                activeProps={{ className: "!text-background !bg-foreground" }}
+              >
+                {t(c.name)}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </div>
+
+
       {open && (
         <div className="border-t border-border bg-background lg:hidden">
           <div className="mx-auto max-w-[1400px] px-6 py-4">
