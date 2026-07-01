@@ -7,11 +7,11 @@ import logoAsset from "@/assets/logo.asset.json";
 const NAV = [
   { to: "/", label: "首页", en: "Home" },
   { to: "/ai-now", label: "AI最新", en: "AI Now" },
-  { to: "/analysis", label: "商业分析", en: "Analysis" },
+  { to: "/analysis", label: "分析", en: "Analysis" },
   { to: "/key-players", label: "Key Players", en: "Players" },
-  { to: "/trends", label: "行业趋势", en: "Trends" },
+  { to: "/video", label: "视频", en: "Video" },
+  { to: "/music", label: "音乐", en: "Sound" },
   { to: "/reports", label: "报告", en: "Reports" },
-  { to: "/playbooks", label: "方法论", en: "Playbooks" },
   { to: "/consulting", label: "咨询", en: "Consulting" },
 ] as const;
 
