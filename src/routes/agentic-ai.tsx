@@ -426,9 +426,12 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* VIDEOS */}
+      {showVideo && curatedVideos.length > 0 && (
       <section className="border-b border-border/60">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <div className="flex items-end justify-between">
             <SectionLabel index="§ 04" label="Agent 视频" en="Agent Video" color="alert" />
