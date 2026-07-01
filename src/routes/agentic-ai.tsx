@@ -527,9 +527,11 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* CTA */}
       <section className="bg-foreground text-background">
+
         <div className="mx-auto max-w-[1400px] px-6 py-20 lg:px-10 lg:py-28">
           <SectionLabel index="§ CTA" label="进入智能体" en="Enter the Agent" color="lime" />
           <h2 className="mt-6 font-display text-4xl font-bold leading-tight lg:text-6xl">
