@@ -494,9 +494,12 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* REPORTS */}
+      {showReport && curatedReports.length > 0 && (
       <section className="border-b border-border/60">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <SectionLabel index="§ 06" label="Agent 研究报告" en="Agent Research" color="violet" />
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
