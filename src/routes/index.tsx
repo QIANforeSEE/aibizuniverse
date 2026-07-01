@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, ArrowRight, Sparkles, TrendingUp, Zap, Play } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Sparkles, TrendingUp, Zap, Play, Headphones } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import {
   signals,
@@ -9,13 +9,20 @@ import {
   reports,
   consultingServices,
   suggestedQuestions,
+  videos,
+  audios,
 } from "@/lib/mock-data";
+import heroBanner from "@/assets/hero-banner.jpg";
 import editoRobot from "@/assets/edito-robot.jpg";
 import editoHumanPlus from "@/assets/edito-humanplus.jpg";
 import editoCathedral from "@/assets/edito-cathedral.jpg";
 import editoHand from "@/assets/edito-hand.jpg";
 import editoMist from "@/assets/edito-mist.jpg";
 import editoChip from "@/assets/edito-chip.jpg";
+import videoThumb1 from "@/assets/video-thumb-1.jpg";
+import videoThumb2 from "@/assets/video-thumb-2.jpg";
+import audioThumb1 from "@/assets/audio-thumb-1.jpg";
+import audioThumb2 from "@/assets/audio-thumb-2.jpg";
 
 
 export const Route = createFileRoute("/")({
@@ -54,10 +61,13 @@ const accentBorder = {
 function Home() {
   return (
     <SiteLayout>
+      <TopBanner />
       <Hero />
       <SignalStrip />
-      <HumanPlusFilm />
       <FeaturedAnalysis />
+      <VideoRow />
+      <HumanPlusFilm />
+      <AudioRow />
       <VisualField />
       <GrowthSystem />
       <KeyPlayersRadar />
@@ -66,6 +76,70 @@ function Home() {
       <AgentEntry />
       <Newsletter />
     </SiteLayout>
+  );
+}
+
+/* ---------- TOP BANNER (full-bleed cinematic) ---------- */
+
+function TopBanner() {
+  return (
+    <section className="relative overflow-hidden border-b border-border bg-foreground text-background">
+      <img
+        src={heroBanner}
+        alt="AI Business Universe — cinematic cover"
+        width={1920}
+        height={1024}
+        className="h-[62vh] min-h-[420px] w-full object-cover object-right lg:h-[78vh]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/85 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
+
+      <div className="pointer-events-none absolute inset-0 mx-auto flex max-w-[1400px] flex-col justify-between px-6 py-10 lg:px-10 lg:py-14">
+        <div className="pointer-events-auto flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-background/80">
+          <span className="rounded-full bg-lime px-3 py-1 text-foreground">Issue 03 · 2026</span>
+          <span className="hidden h-px flex-1 bg-background/25 md:block" />
+          <span className="hidden md:inline">AI Business Growth Intelligence · 全球版</span>
+          <span className="flex items-center gap-1.5 text-lime">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-lime" /> LIVE
+          </span>
+        </div>
+
+        <div className="pointer-events-auto max-w-3xl">
+          <div className="text-[12px] font-semibold uppercase tracking-[0.28em] text-lime">
+            封面故事 · Cover Story
+          </div>
+          <h1 className="mt-4 font-display text-[10vw] font-bold leading-[0.9] tracking-[-0.03em] text-background sm:text-6xl lg:text-[104px]">
+            AI 商业宇宙,<br />
+            <span className="text-lime">正在诞生。</span>
+          </h1>
+          <p className="mt-6 max-w-2xl text-base text-background/80 lg:text-lg">
+            这是一份关于 AI 商业世界的现场调查。 从模型、Agent、品牌到组织,<br className="hidden lg:block" />
+            我们记录正在被重写的商业秩序 —— 并把它翻译成企业可以行动的语言。
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              to="/article/$slug"
+              params={{ slug: "2026-ai-operating-system" }}
+              className="inline-flex items-center gap-2 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-foreground transition-transform hover:-translate-y-0.5"
+            >
+              阅读封面故事 <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/video"
+              className="inline-flex items-center gap-2 rounded-full border border-background/40 px-6 py-3 text-sm font-semibold text-background hover:bg-background hover:text-foreground"
+            >
+              <Play className="h-4 w-4" /> 进入视频频道
+            </Link>
+            <Link
+              to="/music"
+              className="inline-flex items-center gap-2 rounded-full border border-background/40 px-6 py-3 text-sm font-semibold text-background hover:bg-background hover:text-foreground"
+            >
+              <Headphones className="h-4 w-4" /> 音乐 & 播客
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
