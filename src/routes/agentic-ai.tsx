@@ -1,7 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, getRouteApi } from "@tanstack/react-router";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { z } from "zod";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { SITE_NAME, SITE_URL, absUrl } from "@/lib/seo";
-import { useT, useLang } from "@/lib/i18n";
+import { useT, useLang, type Localized } from "@/lib/i18n";
 import { featured, signals, videos, audios, reports } from "@/lib/mock-data";
 
 const PATH = "/agentic-ai";
@@ -28,6 +30,36 @@ const VIDEO_SLUGS = [
   "cmo-ai-native-keynote",
 ];
 const REPORT_SLUGS = ["enterprise-ai-agent-playbook", "2026-ai-business-trends"];
+
+// Topic tagging per slug — drives the topic filter chips.
+type Topic = "foundation" | "orchestration" | "deployment" | "economy";
+const TOPIC_TAGS: Record<string, Topic[]> = {
+  // Featured
+  "2026-ai-operating-system": ["foundation", "orchestration", "economy"],
+  "brand-growth-ai-rebuild": ["deployment", "economy"],
+  // Signals
+  "openai-agent-builder-pricing-cut": ["foundation", "economy"],
+  "coze-commerce-agent-launch": ["orchestration", "deployment", "economy"],
+  "minimax-multimodal-agent-brand": ["foundation", "deployment"],
+  // Videos
+  "agent-economy-roundtable": ["orchestration", "economy"],
+  "human-plus-manifest": ["economy"],
+  "founders-inside-the-agent-launch": ["deployment", "orchestration"],
+  "cmo-ai-native-keynote": ["deployment", "economy"],
+  // Reports
+  "enterprise-ai-agent-playbook": ["deployment", "orchestration"],
+  "2026-ai-business-trends": ["foundation", "orchestration", "deployment", "economy"],
+};
+
+const TYPE_VALUES = ["all", "analysis", "video", "podcast", "report"] as const;
+const TOPIC_VALUES = ["all", "foundation", "orchestration", "deployment", "economy"] as const;
+type ContentType = (typeof TYPE_VALUES)[number];
+
+const searchSchema = z.object({
+  type: fallback(z.enum(TYPE_VALUES), "all").default("all"),
+  topic: fallback(z.enum(TOPIC_VALUES), "all").default("all"),
+});
+
 
 export const Route = createFileRoute("/agentic-ai")({
   head: () => {
