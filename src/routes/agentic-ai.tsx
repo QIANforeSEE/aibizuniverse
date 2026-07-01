@@ -1,10 +1,11 @@
-import { createFileRoute, Link, getRouteApi } from "@tanstack/react-router";
+import { createFileRoute, Link, getRouteApi, useNavigate } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { SITE_NAME, SITE_URL, absUrl } from "@/lib/seo";
 import { useT, useLang, type Localized } from "@/lib/i18n";
 import { featured, signals, videos, audios, reports } from "@/lib/mock-data";
+
 
 const PATH = "/agentic-ai";
 const TITLE_CN = "Agentic AI 智能体经济中枢";
@@ -178,6 +179,50 @@ function hasTopic(slug: string, topic: (typeof TOPIC_VALUES)[number]): boolean {
   if (topic === "all") return true;
   return (TOPIC_TAGS[slug] ?? []).includes(topic as Topic);
 }
+
+function TopicTags({
+  slug,
+  current,
+  t,
+}: {
+  slug: string;
+  current: (typeof TOPIC_VALUES)[number];
+  t: (v: Localized) => string;
+}) {
+  const navigate = useNavigate({ from: "/agentic-ai" });
+  const tags = TOPIC_TAGS[slug] ?? [];
+  if (tags.length === 0) return null;
+  return (
+    <div className="mt-4 flex flex-wrap gap-1.5">
+      {tags.map((tag) => {
+        const active = current === tag;
+        return (
+          <button
+            key={tag}
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              navigate({
+                search: ((prev: Record<string, string>) => ({ ...prev, topic: active ? "all" : tag })) as never,
+              });
+            }}
+            className={
+              "rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest transition " +
+              (active
+                ? "border-violet bg-violet text-white"
+                : "border-border text-muted-foreground hover:border-foreground hover:text-foreground")
+            }
+          >
+            #{t(TOPIC_LABELS[tag])}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+
 
 function AgenticAIHub() {
   const t = useT();
@@ -390,7 +435,9 @@ function AgenticAIHub() {
                   <span>·</span>
                   <span>{f.readMin} min</span>
                 </div>
+                <TopicTags slug={f.slug} current={topic} t={t} />
               </Link>
+
             ))}
           </div>
         </div>
@@ -419,9 +466,11 @@ function AgenticAIHub() {
                   </div>
                   <h4 className="mt-2 font-display text-lg font-semibold">{t(s.title)}</h4>
                   <p className="mt-1 text-sm text-muted-foreground">{t(s.excerpt)}</p>
+                  <TopicTags slug={s.slug} current={topic} t={t} />
                 </div>
                 <span className="font-mono text-xs text-muted-foreground">→</span>
               </Link>
+
             ))}
           </div>
         </div>
@@ -455,7 +504,9 @@ function AgenticAIHub() {
                   {t(v.title)}
                 </h4>
                 <p className="mt-3 text-sm text-muted-foreground line-clamp-3">{t(v.excerpt)}</p>
+                <TopicTags slug={v.slug} current={topic} t={t} />
               </Link>
+
             ))}
           </div>
         </div>
@@ -489,7 +540,9 @@ function AgenticAIHub() {
                   {t(p.title)}
                 </h4>
                 <p className="mt-3 text-sm text-muted-foreground">{t(p.excerpt)}</p>
+                <TopicTags slug={p.slug} current={topic} t={t} />
               </Link>
+
             ))}
           </div>
         </div>
@@ -522,7 +575,9 @@ function AgenticAIHub() {
                   <span>·</span>
                   <span>{r.published}</span>
                 </div>
+                <TopicTags slug={r.slug} current={topic} t={t} />
               </Link>
+
             ))}
           </div>
         </div>

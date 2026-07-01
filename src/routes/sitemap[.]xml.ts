@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { videos, audios, reports, featured, signals } from "@/lib/mock-data";
+import { channels } from "@/lib/channels";
+
 
 const BASE_URL = "https://aibizuniverse.lovable.app";
 
@@ -57,14 +59,23 @@ export const Route = createFileRoute("/sitemap.xml")({
           ...signals.map((s) => ({ path: `/article/${s.slug}`, changefreq: "weekly" as const, priority: "0.6" })),
         ];
 
+        const channelEntries: SitemapEntry[] = channels.map((c) => ({
+          path: `/channel/${c.slug}`,
+          changefreq: "weekly",
+          priority: "0.8",
+        }));
+
+
         const entries: SitemapEntry[] = [
           ...staticEntries,
+          ...channelEntries,
           ...videoEntries,
           ...podcastEntries,
           ...musicEntries,
           ...reportEntries,
           ...articleEntries,
         ];
+
 
         const urls = entries.map((e) =>
           [
