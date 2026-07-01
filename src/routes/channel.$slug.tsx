@@ -97,7 +97,7 @@ function ChannelPage() {
   return (
     <SiteLayout>
       {/* HERO */}
-      <section className={`border-b border-border/60 ${COLOR_BG[ch.color]}`}>
+      <section className={`border-b border-border/60 ${COLOR_BG[ch.color as ChannelColor]}`}>
         <div className="mx-auto max-w-[1400px] px-6 py-20 lg:px-10 lg:py-28">
           <Link
             to="/"
