@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VideoRouteImport } from './routes/video'
 import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as PodcastRouteImport } from './routes/podcast'
 import { Route as PlaybooksRouteImport } from './routes/playbooks'
 import { Route as MusicRouteImport } from './routes/music'
 import { Route as KeyPlayersRouteImport } from './routes/key-players'
@@ -22,6 +23,7 @@ import { Route as AgentRouteImport } from './routes/agent'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as VideoSlugRouteImport } from './routes/video.$slug'
+import { Route as PodcastSlugRouteImport } from './routes/podcast.$slug'
 import { Route as MusicSlugRouteImport } from './routes/music.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 import { Route as ApiAgentRouteImport } from './routes/api/agent'
@@ -39,6 +41,11 @@ const TrendsRoute = TrendsRouteImport.update({
 const ReportsRoute = ReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PodcastRoute = PodcastRouteImport.update({
+  id: '/podcast',
+  path: '/podcast',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlaybooksRoute = PlaybooksRouteImport.update({
@@ -91,6 +98,11 @@ const VideoSlugRoute = VideoSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => VideoRoute,
 } as any)
+const PodcastSlugRoute = PodcastSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => PodcastRoute,
+} as any)
 const MusicSlugRoute = MusicSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -117,12 +129,14 @@ export interface FileRoutesByFullPath {
   '/key-players': typeof KeyPlayersRoute
   '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
+  '/podcast': typeof PodcastRouteWithChildren
   '/reports': typeof ReportsRoute
   '/trends': typeof TrendsRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/music/$slug': typeof MusicSlugRoute
+  '/podcast/$slug': typeof PodcastSlugRoute
   '/video/$slug': typeof VideoSlugRoute
 }
 export interface FileRoutesByTo {
@@ -135,12 +149,14 @@ export interface FileRoutesByTo {
   '/key-players': typeof KeyPlayersRoute
   '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
+  '/podcast': typeof PodcastRouteWithChildren
   '/reports': typeof ReportsRoute
   '/trends': typeof TrendsRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/music/$slug': typeof MusicSlugRoute
+  '/podcast/$slug': typeof PodcastSlugRoute
   '/video/$slug': typeof VideoSlugRoute
 }
 export interface FileRoutesById {
@@ -154,12 +170,14 @@ export interface FileRoutesById {
   '/key-players': typeof KeyPlayersRoute
   '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
+  '/podcast': typeof PodcastRouteWithChildren
   '/reports': typeof ReportsRoute
   '/trends': typeof TrendsRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/music/$slug': typeof MusicSlugRoute
+  '/podcast/$slug': typeof PodcastSlugRoute
   '/video/$slug': typeof VideoSlugRoute
 }
 export interface FileRouteTypes {
@@ -174,12 +192,14 @@ export interface FileRouteTypes {
     | '/key-players'
     | '/music'
     | '/playbooks'
+    | '/podcast'
     | '/reports'
     | '/trends'
     | '/video'
     | '/api/agent'
     | '/article/$slug'
     | '/music/$slug'
+    | '/podcast/$slug'
     | '/video/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -192,12 +212,14 @@ export interface FileRouteTypes {
     | '/key-players'
     | '/music'
     | '/playbooks'
+    | '/podcast'
     | '/reports'
     | '/trends'
     | '/video'
     | '/api/agent'
     | '/article/$slug'
     | '/music/$slug'
+    | '/podcast/$slug'
     | '/video/$slug'
   id:
     | '__root__'
@@ -210,12 +232,14 @@ export interface FileRouteTypes {
     | '/key-players'
     | '/music'
     | '/playbooks'
+    | '/podcast'
     | '/reports'
     | '/trends'
     | '/video'
     | '/api/agent'
     | '/article/$slug'
     | '/music/$slug'
+    | '/podcast/$slug'
     | '/video/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -229,6 +253,7 @@ export interface RootRouteChildren {
   KeyPlayersRoute: typeof KeyPlayersRoute
   MusicRoute: typeof MusicRouteWithChildren
   PlaybooksRoute: typeof PlaybooksRoute
+  PodcastRoute: typeof PodcastRouteWithChildren
   ReportsRoute: typeof ReportsRoute
   TrendsRoute: typeof TrendsRoute
   VideoRoute: typeof VideoRouteWithChildren
@@ -257,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/podcast': {
+      id: '/podcast'
+      path: '/podcast'
+      fullPath: '/podcast'
+      preLoaderRoute: typeof PodcastRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/playbooks': {
@@ -329,6 +361,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideoSlugRouteImport
       parentRoute: typeof VideoRoute
     }
+    '/podcast/$slug': {
+      id: '/podcast/$slug'
+      path: '/$slug'
+      fullPath: '/podcast/$slug'
+      preLoaderRoute: typeof PodcastSlugRouteImport
+      parentRoute: typeof PodcastRoute
+    }
     '/music/$slug': {
       id: '/music/$slug'
       path: '/$slug'
@@ -363,6 +402,17 @@ const MusicRouteChildren: MusicRouteChildren = {
 
 const MusicRouteWithChildren = MusicRoute._addFileChildren(MusicRouteChildren)
 
+interface PodcastRouteChildren {
+  PodcastSlugRoute: typeof PodcastSlugRoute
+}
+
+const PodcastRouteChildren: PodcastRouteChildren = {
+  PodcastSlugRoute: PodcastSlugRoute,
+}
+
+const PodcastRouteWithChildren =
+  PodcastRoute._addFileChildren(PodcastRouteChildren)
+
 interface VideoRouteChildren {
   VideoSlugRoute: typeof VideoSlugRoute
 }
@@ -383,6 +433,7 @@ const rootRouteChildren: RootRouteChildren = {
   KeyPlayersRoute: KeyPlayersRoute,
   MusicRoute: MusicRouteWithChildren,
   PlaybooksRoute: PlaybooksRoute,
+  PodcastRoute: PodcastRouteWithChildren,
   ReportsRoute: ReportsRoute,
   TrendsRoute: TrendsRoute,
   VideoRoute: VideoRouteWithChildren,
