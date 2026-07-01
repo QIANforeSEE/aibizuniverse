@@ -435,7 +435,9 @@ function AgenticAIHub() {
                   <span>·</span>
                   <span>{f.readMin} min</span>
                 </div>
+                <TopicTags slug={f.slug} current={topic} t={t} />
               </Link>
+
             ))}
           </div>
         </div>
