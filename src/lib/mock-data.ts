@@ -160,42 +160,83 @@ export const keyPlayers: { name: string; region: "US" | "CN"; sector: Localized;
   { name: "xAI", region: "US", sector: { cn: "基础模型", en: "Foundation" }, score: 74, delta: "+2", note: { cn: "Grok 4 面向企业开放", en: "Grok 4 opens to enterprise" } },
 ];
 
-export const reports: { id: string; tag: Localized; color: "lime" | "violet" | "signal" | "alert"; title: Localized; excerpt: Localized; pages: number; format: string }[] = [
+export type ReportItem = {
+  id: string;
+  slug: string;
+  tag: Localized;
+  color: "lime" | "violet" | "signal" | "alert";
+  title: Localized;
+  excerpt: Localized;
+  pages: number;
+  format: string;
+  published: string;
+  highlights?: Localized[];
+};
+
+export const reports: ReportItem[] = [
   {
     id: "r1",
+    slug: "2026-ai-business-trends",
     tag: { cn: "旗舰 · Flagship", en: "Flagship" },
     color: "lime",
     title: { cn: "2026 AI 商业趋势报告", en: "2026 AI Business Trends Report" },
     excerpt: { cn: "全球 AI 商业化 12 大趋势、48 个 Key Player、9 大增长引擎的完整版年度报告。", en: "The annual: 12 global trends, 48 Key Players, 9 growth engines." },
     pages: 128,
     format: "PDF · CN/EN",
+    published: "2026-03",
+    highlights: [
+      { cn: "12 条全球 AI 商业化主赛道全景", en: "12 global AI commercialization tracks" },
+      { cn: "48 家 Key Player 的战略打分与解读", en: "Strategic scorecards on 48 Key Players" },
+      { cn: "9 大企业级增长引擎方法论", en: "9 enterprise growth-engine methodologies" },
+    ],
   },
   {
     id: "r2",
+    slug: "enterprise-ai-agent-playbook",
     tag: { cn: "白皮书 · Whitepaper", en: "Whitepaper" },
     color: "violet",
     title: { cn: "企业 AI Agent 落地指南", en: "The Enterprise AI Agent Playbook" },
     excerpt: { cn: "从战略选型、场景优先级到组织重塑的完整 Agent 部署路线图。", en: "A full route from strategy and prioritization to org redesign." },
     pages: 86,
     format: "PDF",
+    published: "2026-02",
+    highlights: [
+      { cn: "Agent 场景优先级评估矩阵", en: "Agent use-case prioritization matrix" },
+      { cn: "从 PoC 到生产环境的部署路径", en: "PoC-to-production deployment path" },
+      { cn: "Agent 时代的组织角色再设计", en: "Org role redesign in the Agent era" },
+    ],
   },
   {
     id: "r3",
+    slug: "geo-aeo-growth-handbook",
     tag: { cn: "指南 · Playbook", en: "Playbook" },
     color: "signal",
     title: { cn: "GEO / AEO 企业增长手册", en: "GEO / AEO Growth Handbook" },
     excerpt: { cn: "AI 搜索时代品牌可见性作战手册:结构化知识、答案资产、引用信号。", en: "Brand visibility in the AI-search era: structured knowledge, answer assets, citation signals." },
     pages: 64,
     format: "PDF",
+    published: "2026-01",
+    highlights: [
+      { cn: "AI 答案引擎的品牌引用机制", en: "How AI answer engines cite brands" },
+      { cn: "结构化知识资产的搭建流程", en: "Building structured knowledge assets" },
+      { cn: "12 个月 GEO 迁移路线图", en: "12-month GEO migration roadmap" },
+    ],
   },
   {
     id: "r4",
+    slug: "ai-brand-as-media-report",
     tag: { cn: "报告 · Report", en: "Report" },
     color: "alert",
     title: { cn: "AI 品牌媒体白皮书", en: "The AI Brand-as-Media Report" },
     excerpt: { cn: "内容工厂到品牌媒体化,广告主的下一场增长战。", en: "From content factory to brand-as-media — the advertiser's next war." },
     pages: 72,
     format: "PDF",
+    published: "2025-12",
+    highlights: [
+      { cn: "品牌媒体化的组织与流程模板", en: "Org and workflow templates for brand-as-media" },
+      { cn: "AI 内容资产的复利模型", en: "Compounding model for AI content assets" },
+      { cn: "从内容工厂到答案引擎的路径", en: "From content factory to answer engine" },
+    ],
   },
 ];
 
