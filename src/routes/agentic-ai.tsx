@@ -204,7 +204,7 @@ function TopicTags({
               e.preventDefault();
               e.stopPropagation();
               navigate({
-                search: (prev) => ({ ...prev, topic: active ? "all" : tag }),
+                search: ((prev: Record<string, string>) => ({ ...prev, topic: active ? "all" : tag })) as never,
               });
             }}
             className={
