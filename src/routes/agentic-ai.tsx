@@ -211,6 +211,7 @@ function AgenticAIHub() {
   const reportCount = showReport ? curatedReports.length : 0;
   const totalCount = analysisCount + videoCount + podcastCount + reportCount;
 
+  const pillars = [
     {
       code: "01",
       title: { cn: "基础模型 · Foundation", en: "Foundation Models" },
