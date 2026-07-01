@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { videos, audios, reports, featured, signals } from "@/lib/mock-data";
+import { channels } from "@/lib/channels";
+
 
 const BASE_URL = "https://aibizuniverse.lovable.app";
 
