@@ -156,17 +156,61 @@ export const Route = createFileRoute("/agentic-ai")({
   component: AgenticAIHub,
 });
 
+const routeApi = getRouteApi("/agentic-ai");
+
+const TYPE_LABELS: Record<ContentType, Localized> = {
+  all: { cn: "全部内容", en: "All" },
+  analysis: { cn: "分析", en: "Analysis" },
+  video: { cn: "视频", en: "Video" },
+  podcast: { cn: "播客", en: "Podcasts" },
+  report: { cn: "报告", en: "Reports" },
+};
+
+const TOPIC_LABELS: Record<(typeof TOPIC_VALUES)[number], Localized> = {
+  all: { cn: "全部主题", en: "All topics" },
+  foundation: { cn: "基础模型", en: "Foundation" },
+  orchestration: { cn: "Agent 编排", en: "Orchestration" },
+  deployment: { cn: "企业部署", en: "Deployment" },
+  economy: { cn: "Agent 经济", en: "Economy" },
+};
+
+function hasTopic(slug: string, topic: (typeof TOPIC_VALUES)[number]): boolean {
+  if (topic === "all") return true;
+  return (TOPIC_TAGS[slug] ?? []).includes(topic as Topic);
+}
+
 function AgenticAIHub() {
   const t = useT();
   const { pick } = useLang();
+  const { type, topic } = routeApi.useSearch();
 
-  const curatedFeatured = featured.filter((f) => FEATURED_SLUGS.includes(f.slug));
-  const curatedSignals = signals.filter((s) => SIGNAL_SLUGS.includes(s.slug));
-  const curatedVideos = videos.filter((v) => VIDEO_SLUGS.includes(v.slug));
-  const curatedPodcasts = audios.filter((a) => a.kind === "podcast");
-  const curatedReports = reports.filter((r) => REPORT_SLUGS.includes(r.slug));
+  const showAnalysis = type === "all" || type === "analysis";
+  const showVideo = type === "all" || type === "video";
+  const showPodcast = type === "all" || type === "podcast";
+  const showReport = type === "all" || type === "report";
 
-  const pillars = [
+  const curatedFeatured = featured
+    .filter((f) => FEATURED_SLUGS.includes(f.slug))
+    .filter((f) => hasTopic(f.slug, topic));
+  const curatedSignals = signals
+    .filter((s) => SIGNAL_SLUGS.includes(s.slug))
+    .filter((s) => hasTopic(s.slug, topic));
+  const curatedVideos = videos
+    .filter((v) => VIDEO_SLUGS.includes(v.slug))
+    .filter((v) => hasTopic(v.slug, topic));
+  const curatedPodcasts = audios
+    .filter((a) => a.kind === "podcast")
+    .filter((a) => hasTopic(a.slug, topic) || topic === "all");
+  const curatedReports = reports
+    .filter((r) => REPORT_SLUGS.includes(r.slug))
+    .filter((r) => hasTopic(r.slug, topic));
+
+  const analysisCount = showAnalysis ? curatedFeatured.length + curatedSignals.length : 0;
+  const videoCount = showVideo ? curatedVideos.length : 0;
+  const podcastCount = showPodcast ? curatedPodcasts.length : 0;
+  const reportCount = showReport ? curatedReports.length : 0;
+  const totalCount = analysisCount + videoCount + podcastCount + reportCount;
+
     {
       code: "01",
       title: { cn: "基础模型 · Foundation", en: "Foundation Models" },
