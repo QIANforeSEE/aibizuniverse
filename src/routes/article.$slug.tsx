@@ -4,6 +4,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { featured, signals, articleBodies } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { str } from "@/lib/thumbs";
+import { buildDetailHead, absUrl } from "@/lib/seo";
 import editoRobot from "@/assets/edito-robot.jpg";
 
 export const Route = createFileRoute("/article/$slug")({
@@ -17,16 +18,34 @@ export const Route = createFileRoute("/article/$slug")({
     const item =
       featured.find((x) => x.slug === params.slug) ??
       signals.find((x) => x.slug === params.slug);
-    const title = str(item?.title, "Article");
-    const desc = str(item?.excerpt, "");
+    if (!item) {
+      return { meta: [{ title: "Article · AI商业宇宙 · AI Business Universe" }] };
+    }
+    const base = buildDetailHead({
+      path: `/article/${params.slug}`,
+      title: item.title,
+      description: item.excerpt,
+      type: "article",
+    });
+    const f = featured.find((x) => x.slug === params.slug);
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: str(item.title),
+      alternativeHeadline: typeof item.title === "string" ? undefined : item.title.en,
+      description: str(item.excerpt),
+      inLanguage: ["zh-CN", "en"],
+      mainEntityOfPage: absUrl(`/article/${params.slug}`),
+      author: { "@type": f ? "Person" : "Organization", name: f?.author ?? "AI Business Universe Editorial" },
+      publisher: {
+        "@type": "Organization",
+        name: "AI商业宇宙 · AI Business Universe",
+        url: "https://aibizuniverse.lovable.app/",
+      },
+    };
     return {
-      meta: [
-        { title: `${title} · AI Business Universe` },
-        { name: "description", content: desc },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc },
-        { property: "og:type", content: "article" },
-      ],
+      ...base,
+      scripts: [{ type: "application/ld+json", children: JSON.stringify(jsonLd) }],
     };
   },
   notFoundComponent: () => (
