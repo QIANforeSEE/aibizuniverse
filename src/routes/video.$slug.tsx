@@ -42,7 +42,7 @@ function VideoDetail() {
             <ArrowLeft className="h-3 w-3" /> 返回视频频道
           </Link>
           <div className="relative mt-6 aspect-video overflow-hidden rounded-lg bg-black">
-            <img src={thumbs[v.thumb]} alt={v.title} width={1920} height={1080} className="h-full w-full object-cover opacity-80" />
+            <img src={thumbs[v.thumb as keyof typeof thumbs]} alt={v.title} width={1920} height={1080} className="h-full w-full object-cover opacity-80" />
             <div className="absolute inset-0 flex items-center justify-center">
               <button className="flex h-20 w-20 items-center justify-center rounded-full bg-lime text-foreground shadow-2xl transition-transform hover:scale-105">
                 <Play className="h-8 w-8 fill-current" />

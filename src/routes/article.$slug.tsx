@@ -96,7 +96,7 @@ function ArticlePage() {
                 Key Takeaways · 关键要点
               </div>
               <ul className="mt-4 space-y-2 text-[15px] leading-relaxed text-foreground">
-                {f.takeaways.map((t, i) => (
+                {f.takeaways.map((t: string, i: number) => (
                   <li key={i} className="flex gap-3">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet" />
                     <span>{t}</span>

@@ -41,7 +41,7 @@ function MusicDetail() {
 
         <div className="mt-10 grid gap-10 md:grid-cols-[320px_1fr]">
           <img
-            src={thumbs[a.thumb]}
+            src={thumbs[a.thumb as keyof typeof thumbs]}
             alt={a.title}
             width={640}
             height={640}
