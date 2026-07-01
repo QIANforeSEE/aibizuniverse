@@ -9,8 +9,62 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrendsRouteImport } from './routes/trends'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as PlaybooksRouteImport } from './routes/playbooks'
+import { Route as KeyPlayersRouteImport } from './routes/key-players'
+import { Route as ConsultingRouteImport } from './routes/consulting'
+import { Route as AnalysisRouteImport } from './routes/analysis'
+import { Route as AiNowRouteImport } from './routes/ai-now'
+import { Route as AgentRouteImport } from './routes/agent'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TrendsRoute = TrendsRouteImport.update({
+  id: '/trends',
+  path: '/trends',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaybooksRoute = PlaybooksRouteImport.update({
+  id: '/playbooks',
+  path: '/playbooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KeyPlayersRoute = KeyPlayersRouteImport.update({
+  id: '/key-players',
+  path: '/key-players',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultingRoute = ConsultingRouteImport.update({
+  id: '/consulting',
+  path: '/consulting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalysisRoute = AnalysisRouteImport.update({
+  id: '/analysis',
+  path: '/analysis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiNowRoute = AiNowRouteImport.update({
+  id: '/ai-now',
+  path: '/ai-now',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentRoute = AgentRouteImport.update({
+  id: '/agent',
+  path: '/agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +73,158 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agent': typeof AgentRoute
+  '/ai-now': typeof AiNowRoute
+  '/analysis': typeof AnalysisRoute
+  '/consulting': typeof ConsultingRoute
+  '/key-players': typeof KeyPlayersRoute
+  '/playbooks': typeof PlaybooksRoute
+  '/reports': typeof ReportsRoute
+  '/trends': typeof TrendsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agent': typeof AgentRoute
+  '/ai-now': typeof AiNowRoute
+  '/analysis': typeof AnalysisRoute
+  '/consulting': typeof ConsultingRoute
+  '/key-players': typeof KeyPlayersRoute
+  '/playbooks': typeof PlaybooksRoute
+  '/reports': typeof ReportsRoute
+  '/trends': typeof TrendsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/agent': typeof AgentRoute
+  '/ai-now': typeof AiNowRoute
+  '/analysis': typeof AnalysisRoute
+  '/consulting': typeof ConsultingRoute
+  '/key-players': typeof KeyPlayersRoute
+  '/playbooks': typeof PlaybooksRoute
+  '/reports': typeof ReportsRoute
+  '/trends': typeof TrendsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/agent'
+    | '/ai-now'
+    | '/analysis'
+    | '/consulting'
+    | '/key-players'
+    | '/playbooks'
+    | '/reports'
+    | '/trends'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/agent'
+    | '/ai-now'
+    | '/analysis'
+    | '/consulting'
+    | '/key-players'
+    | '/playbooks'
+    | '/reports'
+    | '/trends'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/agent'
+    | '/ai-now'
+    | '/analysis'
+    | '/consulting'
+    | '/key-players'
+    | '/playbooks'
+    | '/reports'
+    | '/trends'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AgentRoute: typeof AgentRoute
+  AiNowRoute: typeof AiNowRoute
+  AnalysisRoute: typeof AnalysisRoute
+  ConsultingRoute: typeof ConsultingRoute
+  KeyPlayersRoute: typeof KeyPlayersRoute
+  PlaybooksRoute: typeof PlaybooksRoute
+  ReportsRoute: typeof ReportsRoute
+  TrendsRoute: typeof TrendsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/trends': {
+      id: '/trends'
+      path: '/trends'
+      fullPath: '/trends'
+      preLoaderRoute: typeof TrendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playbooks': {
+      id: '/playbooks'
+      path: '/playbooks'
+      fullPath: '/playbooks'
+      preLoaderRoute: typeof PlaybooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/key-players': {
+      id: '/key-players'
+      path: '/key-players'
+      fullPath: '/key-players'
+      preLoaderRoute: typeof KeyPlayersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consulting': {
+      id: '/consulting'
+      path: '/consulting'
+      fullPath: '/consulting'
+      preLoaderRoute: typeof ConsultingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analysis': {
+      id: '/analysis'
+      path: '/analysis'
+      fullPath: '/analysis'
+      preLoaderRoute: typeof AnalysisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-now': {
+      id: '/ai-now'
+      path: '/ai-now'
+      fullPath: '/ai-now'
+      preLoaderRoute: typeof AiNowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agent': {
+      id: '/agent'
+      path: '/agent'
+      fullPath: '/agent'
+      preLoaderRoute: typeof AgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +237,16 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AgentRoute: AgentRoute,
+  AiNowRoute: AiNowRoute,
+  AnalysisRoute: AnalysisRoute,
+  ConsultingRoute: ConsultingRoute,
+  KeyPlayersRoute: KeyPlayersRoute,
+  PlaybooksRoute: PlaybooksRoute,
+  ReportsRoute: ReportsRoute,
+  TrendsRoute: TrendsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
