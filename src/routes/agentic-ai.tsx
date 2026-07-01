@@ -575,7 +575,9 @@ function AgenticAIHub() {
                   <span>·</span>
                   <span>{r.published}</span>
                 </div>
+                <TopicTags slug={r.slug} current={topic} t={t} />
               </Link>
+
             ))}
           </div>
         </div>
