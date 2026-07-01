@@ -339,8 +339,10 @@ function FeaturedAnalysis() {
 
         <div className="mt-14 grid gap-8 lg:grid-cols-3">
           {featured.map((f, idx) => (
-            <article
+            <Link
               key={f.id}
+              to="/article/$slug"
+              params={{ slug: f.slug }}
               className={
                 "group relative flex flex-col rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:shadow-[10px_10px_0_0_var(--color-foreground)] " +
                 (idx === 0 ? "lg:col-span-2 lg:row-span-1" : "")
@@ -355,7 +357,7 @@ function FeaturedAnalysis() {
 
               <h3
                 className={
-                  "mt-6 font-display font-bold leading-[1.1] tracking-tight text-foreground " +
+                  "mt-6 font-display font-bold leading-[1.1] tracking-tight text-foreground group-hover:text-violet " +
                   (idx === 0 ? "text-4xl lg:text-5xl" : "text-2xl")
                 }
               >
@@ -370,7 +372,7 @@ function FeaturedAnalysis() {
                     Key Takeaways · 核心结论
                   </div>
                   <ul className="mt-3 space-y-2">
-                    {f.takeaways.map((t, i) => (
+                    {f.takeaways.map((t: string, i: number) => (
                       <li key={i} className="flex gap-3 text-[13px] leading-snug text-foreground">
                         <span className="font-mono text-muted-foreground">0{i + 1}</span>
                         <span>{t}</span>
@@ -384,7 +386,7 @@ function FeaturedAnalysis() {
                 <span>{f.author} · {f.readMin} 分钟阅读</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>
