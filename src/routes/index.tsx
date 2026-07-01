@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, ArrowRight, Sparkles, TrendingUp, Zap } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Sparkles, TrendingUp, Zap, Play } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import {
   signals,
@@ -10,6 +10,13 @@ import {
   consultingServices,
   suggestedQuestions,
 } from "@/lib/mock-data";
+import editoRobot from "@/assets/edito-robot.jpg";
+import editoHumanPlus from "@/assets/edito-humanplus.jpg";
+import editoCathedral from "@/assets/edito-cathedral.jpg";
+import editoHand from "@/assets/edito-hand.jpg";
+import editoMist from "@/assets/edito-mist.jpg";
+import editoChip from "@/assets/edito-chip.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -49,7 +56,9 @@ function Home() {
     <SiteLayout>
       <Hero />
       <SignalStrip />
+      <HumanPlusFilm />
       <FeaturedAnalysis />
+      <VisualField />
       <GrowthSystem />
       <KeyPlayersRadar />
       <ReportsRow />
@@ -66,6 +75,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border">
       <div className="absolute inset-0 grid-lines opacity-60" />
+
       <div className="absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-lime/40 blur-3xl" />
       <div className="absolute -bottom-40 left-[-10%] h-[420px] w-[420px] rounded-full bg-violet/25 blur-3xl" />
       <div className="absolute right-1/3 top-1/2 h-[200px] w-[200px] rounded-full bg-signal/30 blur-3xl" />
