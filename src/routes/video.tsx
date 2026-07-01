@@ -4,14 +4,16 @@ import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { videos } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { videoThumbs, str } from "@/lib/thumbs";
+import { buildStaticHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/video")({
-  head: () => ({
-    meta: [
-      { title: "Video · AI商业宇宙 · AI Business Universe" },
-      { name: "description", content: "AI 商业纪录片、主题演讲、圆桌与特稿短片。" },
-    ],
-  }),
+  head: () =>
+    buildStaticHead({
+      path: "/video",
+      title: "Video · 视频 — AI商业宇宙 · AI Business Universe",
+      description:
+        "AI 商业纪录片、主题演讲、圆桌与特稿短片 · AI business documentaries, keynotes, roundtables and feature films.",
+    }),
   component: VideoPage,
 });
 

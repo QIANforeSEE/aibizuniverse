@@ -4,7 +4,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { audios } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { audioThumbs, str } from "@/lib/thumbs";
-import { buildDetailHead } from "@/lib/seo";
+import { buildDetailHead, absUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/podcast/$slug")({
   loader: ({ params }) => {
@@ -16,13 +16,32 @@ export const Route = createFileRoute("/podcast/$slug")({
     if (!loaderData) {
       return { meta: [{ title: `Podcast · AI商业宇宙 · AI Business Universe` }] };
     }
-    return buildDetailHead({
+    const base = buildDetailHead({
       path: `/podcast/${params.slug}`,
       title: loaderData.title,
       description: loaderData.excerpt,
       image: audioThumbs[loaderData.thumb],
       type: "article",
     });
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "PodcastEpisode",
+      name: str(loaderData.title),
+      description: str(loaderData.excerpt),
+      url: absUrl(`/podcast/${params.slug}`),
+      inLanguage: ["zh-CN", "en"],
+      duration: `PT${loaderData.duration.replace(":", "M")}S`,
+      image: absUrl(audioThumbs[loaderData.thumb]),
+      partOfSeries: {
+        "@type": "PodcastSeries",
+        name: "AI Business Universe Podcast",
+        url: "https://aibizuniverse.lovable.app/podcast",
+      },
+    };
+    return {
+      ...base,
+      scripts: [{ type: "application/ld+json", children: JSON.stringify(jsonLd) }],
+    };
   },
   notFoundComponent: () => (
     <SiteLayout>

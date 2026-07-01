@@ -4,7 +4,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { videos } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { videoThumbs, str } from "@/lib/thumbs";
-import { buildDetailHead } from "@/lib/seo";
+import { buildDetailHead, absUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/video/$slug")({
   loader: ({ params }) => {
@@ -16,13 +16,32 @@ export const Route = createFileRoute("/video/$slug")({
     if (!loaderData) {
       return { meta: [{ title: `Video · AI商业宇宙 · AI Business Universe` }] };
     }
-    return buildDetailHead({
+    const base = buildDetailHead({
       path: `/video/${params.slug}`,
       title: loaderData.title,
       description: loaderData.excerpt,
       image: videoThumbs[loaderData.thumb],
       type: "video.other",
     });
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      name: str(loaderData.title),
+      description: str(loaderData.excerpt),
+      thumbnailUrl: absUrl(videoThumbs[loaderData.thumb]),
+      uploadDate: "2026-01-01",
+      duration: `PT${loaderData.duration.replace(":", "M")}S`,
+      inLanguage: ["zh-CN", "en"],
+      publisher: {
+        "@type": "Organization",
+        name: "AI商业宇宙 · AI Business Universe",
+        url: "https://aibizuniverse.lovable.app/",
+      },
+    };
+    return {
+      ...base,
+      scripts: [{ type: "application/ld+json", children: JSON.stringify(jsonLd) }],
+    };
   },
   notFoundComponent: () => (
     <SiteLayout>

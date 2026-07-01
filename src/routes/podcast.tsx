@@ -4,16 +4,16 @@ import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { audios } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { audioThumbs, str } from "@/lib/thumbs";
+import { buildStaticHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/podcast")({
-  head: () => ({
-    meta: [
-      { title: "Podcast · AI商业宇宙 · AI Business Universe" },
-      { name: "description", content: "AI 商业深度播客、CEO 简报、创始人音频札记与商业增长电台。" },
-      { property: "og:title", content: "Podcast · AI Business Universe" },
-      { property: "og:description", content: "AI business deep-dive podcasts, CEO briefings and founder audio notes." },
-    ],
-  }),
+  head: () =>
+    buildStaticHead({
+      path: "/podcast",
+      title: "Podcast · 播客 — AI商业宇宙 · AI Business Universe",
+      description:
+        "AI 商业深度播客、CEO 简报、创始人音频札记与商业增长电台 · AI business deep-dive podcasts, CEO briefings, founder notes and growth radio.",
+    }),
   component: PodcastPage,
 });
 

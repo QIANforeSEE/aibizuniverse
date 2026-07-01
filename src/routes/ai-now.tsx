@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
+import { buildStaticHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/ai-now")({
-  head: () => ({
-    meta: [
-      { title: "AI 最新 · AI Now — AI商业宇宙" },
-      { name: "description", content: "全球 AI 商业信号、平台动态、Key Player 最新变化。" },
-    ],
-  }),
+  head: () =>
+    buildStaticHead({
+      path: "/ai-now",
+      title: "AI 最新 · AI Now — AI商业宇宙 · AI Business Universe",
+      description:
+        "全球 AI 商业信号、平台动态、Key Player 最新变化 · Global AI business signals, platform moves and Key Player updates.",
+    }),
   component: () => <ComingSoon index="§ 01" label="AI 最新" en="AI Now" />,
 });
 

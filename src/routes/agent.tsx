@@ -6,18 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { suggestedQuestions } from "@/lib/mock-data";
 import { useT } from "@/lib/i18n";
+import { buildStaticHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/agent")({
-  head: () => ({
-    meta: [
-      { title: "AI商业宇宙智能体 · AI Business Universe Agent" },
-      {
-        name: "description",
-        content:
-          "面向 CEO、CMO 与品牌广告主的 AI 商业增长顾问。提出你的商业问题，AI商业宇宙智能体将给出结构化答案与推荐阅读。",
-      },
-    ],
-  }),
+  head: () =>
+    buildStaticHead({
+      path: "/agent",
+      title: "AI商业宇宙智能体 · AI Business Universe Agent",
+      description:
+        "面向 CEO、CMO 与品牌广告主的 AI 商业增长顾问。提出你的商业问题,智能体将给出结构化答案与推荐阅读 · AI business growth advisor for CEOs, CMOs and advertisers — structured answers and recommended reading.",
+    }),
   component: AgentPage,
 });
 
