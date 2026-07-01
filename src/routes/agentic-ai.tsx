@@ -466,9 +466,11 @@ function AgenticAIHub() {
                   </div>
                   <h4 className="mt-2 font-display text-lg font-semibold">{t(s.title)}</h4>
                   <p className="mt-1 text-sm text-muted-foreground">{t(s.excerpt)}</p>
+                  <TopicTags slug={s.slug} current={topic} t={t} />
                 </div>
                 <span className="font-mono text-xs text-muted-foreground">→</span>
               </Link>
+
             ))}
           </div>
         </div>
