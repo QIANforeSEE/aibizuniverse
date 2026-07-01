@@ -931,3 +931,167 @@ function VisualField() {
     </section>
   );
 }
+
+/* ---------- VIDEO ROW ---------- */
+
+const videoThumbMap = { v1: videoThumb1, v2: videoThumb2 } as const;
+const audioThumbMap = { a1: audioThumb1, a2: audioThumb2 } as const;
+const chipClass = {
+  lime: "bg-lime text-foreground",
+  violet: "bg-violet text-white",
+  signal: "bg-signal text-foreground",
+  alert: "bg-alert text-white",
+} as const;
+
+function VideoRow() {
+  const [hero, ...rest] = videos;
+  return (
+    <section className="border-b border-border bg-foreground text-background">
+      <div className="mx-auto max-w-[1400px] px-6 py-20 lg:px-10 lg:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-background/60">
+              <span className="font-mono">§ 02.5</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-lime" />
+              <span>视频频道 / Video Channel</span>
+            </div>
+            <h2 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight lg:text-6xl">
+              用镜头讲述 <span className="text-lime">AI 商业</span>。
+            </h2>
+          </div>
+          <Link to="/video" className="text-sm font-semibold text-background/80 hover:text-lime">
+            进入视频频道 →
+          </Link>
+        </div>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+          <Link
+            to="/video/$slug"
+            params={{ slug: hero.slug }}
+            className="group relative block overflow-hidden rounded-2xl"
+          >
+            <img
+              src={videoThumbMap[hero.thumb]}
+              alt={hero.title}
+              loading="lazy"
+              width={1280}
+              height={720}
+              className="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+            <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-lime px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-foreground">
+              <Play className="h-3 w-3 fill-current" /> {hero.category}
+            </div>
+            <div className="absolute inset-x-5 bottom-5">
+              <h3 className="font-display text-2xl font-bold leading-tight text-background lg:text-4xl">
+                {hero.title}
+              </h3>
+              <div className="mt-3 flex items-center gap-3 text-[11px] font-mono text-background/70">
+                <span>{hero.duration}</span>
+                <span>·</span>
+                <span>观看正片 →</span>
+              </div>
+            </div>
+          </Link>
+
+          <div className="flex flex-col gap-4">
+            {rest.map((v) => (
+              <Link
+                key={v.id}
+                to="/video/$slug"
+                params={{ slug: v.slug }}
+                className="group flex gap-4 rounded-xl border border-background/10 bg-background/[0.03] p-3 transition-colors hover:border-background/30 hover:bg-background/[0.08]"
+              >
+                <div className="relative aspect-video w-32 shrink-0 overflow-hidden rounded-md sm:w-40">
+                  <img
+                    src={videoThumbMap[v.thumb]}
+                    alt={v.title}
+                    loading="lazy"
+                    width={640}
+                    height={360}
+                    className="h-full w-full object-cover"
+                  />
+                  <span className="absolute bottom-1 right-1 rounded-sm bg-black/70 px-1.5 py-0.5 font-mono text-[10px]">
+                    {v.duration}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <div className={"inline-block rounded-sm px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest " + chipClass[v.color]}>
+                    {v.category}
+                  </div>
+                  <div className="mt-2 font-display text-[15px] font-semibold leading-snug text-background group-hover:text-lime">
+                    {v.title}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- AUDIO ROW ---------- */
+
+function AudioRow() {
+  return (
+    <section className="border-b border-border">
+      <div className="mx-auto max-w-[1400px] px-6 py-20 lg:px-10 lg:py-28">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <SectionLabel index="§ 04.5" label="音乐 & 播客" en="Sound Channel" color="signal" />
+            <h2 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-tight lg:text-6xl">
+              用耳朵理解 <span className="text-signal">AI 商业</span>。
+            </h2>
+            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+              深度播客、创始人音频札记、AI 原生环境音乐 —— 每周更新。
+            </p>
+          </div>
+          <Link to="/music" className="text-sm font-semibold text-foreground hover:text-signal">
+            进入音频频道 →
+          </Link>
+        </div>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {audios.map((a) => (
+            <Link
+              key={a.id}
+              to="/music/$slug"
+              params={{ slug: a.slug }}
+              className="group block overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)]"
+            >
+              <div className="relative aspect-square overflow-hidden">
+                <img
+                  src={audioThumbMap[a.thumb]}
+                  alt={a.title}
+                  loading="lazy"
+                  width={640}
+                  height={640}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-full bg-background text-foreground shadow-lg">
+                  <Play className="h-4 w-4 fill-current" />
+                </span>
+                <span className="absolute right-3 top-3 rounded bg-background/90 px-2 py-0.5 font-mono text-[10px] text-foreground">
+                  {a.duration}
+                </span>
+              </div>
+              <div className="p-4">
+                <div className={"inline-block rounded-sm px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest " + chipClass[a.color]}>
+                  {a.category}
+                </div>
+                <div className="mt-3 font-display text-base font-semibold leading-snug group-hover:text-violet">
+                  {a.title}
+                </div>
+                <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground line-clamp-2">
+                  {a.excerpt}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
