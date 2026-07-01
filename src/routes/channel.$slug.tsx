@@ -345,8 +345,9 @@ function ChannelPage() {
           <SectionLabel index="§ CTA" label="向智能体提问" en="Ask the Agent" color="lime" />
           <h2 className="mt-6 max-w-3xl font-display text-4xl font-bold leading-tight lg:text-5xl">
             {pick(
-              `把关于 “${ch.name.cn}” 的问题交给 AI 商业宇宙智能体`,
-              `Hand your questions about "${ch.name.en}" to the AI Business Universe Agent`,
+              `把关于 “${str(ch.name)}” 的问题交给 AI 商业宇宙智能体`,
+              `Hand your questions about "${typeof ch.name === "string" ? ch.name : ch.name.en}" to the AI Business Universe Agent`,
+
             )}
           </h2>
           <Link
