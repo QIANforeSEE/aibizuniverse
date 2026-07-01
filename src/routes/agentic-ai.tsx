@@ -179,6 +179,42 @@ function hasTopic(slug: string, topic: (typeof TOPIC_VALUES)[number]): boolean {
   return (TOPIC_TAGS[slug] ?? []).includes(topic as Topic);
 }
 
+function TopicTags({
+  slug,
+  current,
+  t,
+}: {
+  slug: string;
+  current: (typeof TOPIC_VALUES)[number];
+  t: (v: Localized) => string;
+}) {
+  const tags = TOPIC_TAGS[slug] ?? [];
+  if (tags.length === 0) return null;
+  return (
+    <div className="mt-4 flex flex-wrap gap-1.5" onClick={(e) => e.stopPropagation()}>
+      {tags.map((tag) => {
+        const active = current === tag;
+        return (
+          <Link
+            key={tag}
+            to="/agentic-ai"
+            search={((prev: Record<string, string>) => ({ ...prev, topic: active ? "all" : tag })) as never}
+            className={
+              "rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest transition " +
+              (active
+                ? "border-violet bg-violet text-white"
+                : "border-border text-muted-foreground hover:border-foreground hover:text-foreground")
+            }
+          >
+            #{t(TOPIC_LABELS[tag])}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+
 function AgenticAIHub() {
   const t = useT();
   const { pick } = useLang();
