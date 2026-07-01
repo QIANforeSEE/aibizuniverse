@@ -582,7 +582,7 @@ function FilterRow<K extends "type" | "topic", V extends string>({
             <Link
               key={opt}
               to="/agentic-ai"
-              search={(prev) => ({ ...prev, [param]: opt } as never)}
+              search={((prev: Record<string, string>) => ({ ...prev, [param]: opt })) as never}
               className={
                 "rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-widest transition " +
                 (active
