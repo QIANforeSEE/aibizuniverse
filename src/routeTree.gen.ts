@@ -20,6 +20,7 @@ import { Route as KeyPlayersRouteImport } from './routes/key-players'
 import { Route as ConsultingRouteImport } from './routes/consulting'
 import { Route as AnalysisRouteImport } from './routes/analysis'
 import { Route as AiNowRouteImport } from './routes/ai-now'
+import { Route as AgenticAiRouteImport } from './routes/agentic-ai'
 import { Route as AgentRouteImport } from './routes/agent'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -85,6 +86,11 @@ const AiNowRoute = AiNowRouteImport.update({
   path: '/ai-now',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgenticAiRoute = AgenticAiRouteImport.update({
+  id: '/agentic-ai',
+  path: '/agentic-ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgentRoute = AgentRouteImport.update({
   id: '/agent',
   path: '/agent',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/agent': typeof AgentRoute
+  '/agentic-ai': typeof AgenticAiRoute
   '/ai-now': typeof AiNowRoute
   '/analysis': typeof AnalysisRoute
   '/consulting': typeof ConsultingRoute
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/agent': typeof AgentRoute
+  '/agentic-ai': typeof AgenticAiRoute
   '/ai-now': typeof AiNowRoute
   '/analysis': typeof AnalysisRoute
   '/consulting': typeof ConsultingRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/agent': typeof AgentRoute
+  '/agentic-ai': typeof AgenticAiRoute
   '/ai-now': typeof AiNowRoute
   '/analysis': typeof AnalysisRoute
   '/consulting': typeof ConsultingRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/agent'
+    | '/agentic-ai'
     | '/ai-now'
     | '/analysis'
     | '/consulting'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/agent'
+    | '/agentic-ai'
     | '/ai-now'
     | '/analysis'
     | '/consulting'
@@ -248,6 +259,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/agent'
+    | '/agentic-ai'
     | '/ai-now'
     | '/analysis'
     | '/consulting'
@@ -271,6 +283,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AgentRoute: typeof AgentRoute
+  AgenticAiRoute: typeof AgenticAiRoute
   AiNowRoute: typeof AiNowRoute
   AnalysisRoute: typeof AnalysisRoute
   ConsultingRoute: typeof ConsultingRoute
@@ -363,6 +376,13 @@ declare module '@tanstack/react-router' {
       path: '/ai-now'
       fullPath: '/ai-now'
       preLoaderRoute: typeof AiNowRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agentic-ai': {
+      id: '/agentic-ai'
+      path: '/agentic-ai'
+      fullPath: '/agentic-ai'
+      preLoaderRoute: typeof AgenticAiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agent': {
@@ -477,6 +497,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AgentRoute: AgentRoute,
+  AgenticAiRoute: AgenticAiRoute,
   AiNowRoute: AiNowRoute,
   AnalysisRoute: AnalysisRoute,
   ConsultingRoute: ConsultingRoute,
