@@ -395,9 +395,12 @@ function AgenticAIHub() {
           </div>
         </div>
       </section>
+      )}
 
       {/* SIGNALS */}
+      {showAnalysis && curatedSignals.length > 0 && (
       <section className="border-b border-border/60 bg-muted/30">
+
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
           <SectionLabel index="§ 03" label="Agent 信号" en="Agent Signals" color="signal" />
           <div className="mt-8 divide-y divide-border rounded-2xl border border-border bg-background">
