@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Menu, X, ArrowUpRight, Sparkles } from "lucide-react";
 import logoAsset from "@/assets/logo.asset.json";
 import { UI, useLang, useT, type Lang } from "@/lib/i18n";
+import { channels } from "@/lib/channels";
+
 
 const NAV = [
   { to: "/", label: UI.home },
