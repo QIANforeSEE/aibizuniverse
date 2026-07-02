@@ -66,25 +66,30 @@ function ReportsPage() {
         <SectionLabel index="R · 01" label={lang === "cn" ? "全部报告" : "All Reports"} en="All Reports" color="violet" />
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {reports.map((r) => (
-            <Link
-              key={r.id}
-              to="/reports/$slug"
-              params={{ slug: r.slug }}
-              className="group flex flex-col gap-5 rounded-lg border border-border bg-card p-6 transition-shadow hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)] lg:p-8"
-            >
-              <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.22em]">
-                <span className={`rounded-full px-2.5 py-1 ${chip[r.color]}`}>{t(r.tag)}</span>
-                <span className="flex items-center gap-2 text-muted-foreground">
-                  <FileText className="h-3 w-3" /> {r.pages}p · {r.format}
-                </span>
+            <div key={r.id} className="group relative">
+              <Link
+                to="/reports/$slug"
+                params={{ slug: r.slug }}
+                className="flex flex-col gap-5 rounded-lg border border-border bg-card p-6 transition-shadow hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.35)] lg:p-8"
+              >
+                <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.22em]">
+                  <span className={`rounded-full px-2.5 py-1 ${chip[r.color]}`}>{t(r.tag)}</span>
+                  <span className="flex items-center gap-2 text-muted-foreground">
+                    <FileText className="h-3 w-3" /> {r.pages}p · {r.format}
+                  </span>
+                </div>
+                <h2 className="font-display text-2xl leading-snug group-hover:text-violet lg:text-3xl">{t(r.title)}</h2>
+                <p className="text-sm text-muted-foreground lg:text-base">{t(r.excerpt)}</p>
+                <div className="mt-auto inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-foreground">
+                  {lang === "cn" ? "查看报告" : "View report"} <ArrowUpRight className="h-3 w-3" />
+                </div>
+              </Link>
+              <div className="absolute right-4 top-4 opacity-0 transition-opacity group-hover:opacity-100">
+                <EditInAdmin kind="report" />
               </div>
-              <h2 className="font-display text-2xl leading-snug group-hover:text-violet lg:text-3xl">{t(r.title)}</h2>
-              <p className="text-sm text-muted-foreground lg:text-base">{t(r.excerpt)}</p>
-              <div className="mt-auto inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-foreground">
-                {lang === "cn" ? "查看报告" : "View report"} <ArrowUpRight className="h-3 w-3" />
-              </div>
-            </Link>
+            </div>
           ))}
+
         </div>
       </section>
     </SiteLayout>
