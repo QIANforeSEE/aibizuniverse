@@ -85,7 +85,7 @@ function ReportsPage() {
                 </div>
               </Link>
               <div className="absolute right-4 top-4 opacity-0 transition-opacity group-hover:opacity-100">
-                <EditInAdmin kind="report" />
+                <EditInAdmin kind="report" slug={r.slug} title={t(r.title)} />
               </div>
             </div>
           ))}

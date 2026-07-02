@@ -83,7 +83,7 @@ function VideoPage() {
                 <p className="mt-2 text-sm text-muted-foreground">{t(v.excerpt)}</p>
               </Link>
               <div className="absolute right-3 top-3 opacity-0 transition-opacity group-hover:opacity-100">
-                <EditInAdmin kind="video" />
+                <EditInAdmin kind="video" slug={v.slug} title={str(v.title)} />
               </div>
             </div>
           ))}
