@@ -38,10 +38,28 @@ export const Route = createFileRoute("/upload")({
 function UploadPage() {
   const { lang } = useLang();
   const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/upload" });
   const [kind, setKind] = useState<Kind>(search.type ?? "article");
+  const [view, setView] = useState<View>(search.view ?? "upload");
   const [sent, setSent] = useState(false);
   const active = KINDS.find((k) => k.id === kind)!;
 
+  // Keep local state in sync when the URL changes (deep links from cards / CTAs)
+  useEffect(() => {
+    if (search.type && search.type !== kind) setKind(search.type);
+    if (search.view && search.view !== view) setView(search.view);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.type, search.view]);
+
+  const updateKind = (k: Kind) => {
+    setKind(k);
+    setSent(false);
+    navigate({ search: (prev) => ({ ...prev, type: k }) });
+  };
+  const updateView = (v: View) => {
+    setView(v);
+    navigate({ search: (prev) => ({ ...prev, view: v }) });
+  };
 
   return (
     <SiteLayout>
@@ -56,6 +74,22 @@ function UploadPage() {
               ? "编辑、合作作者与机构合作方可通过本页上载文章、视频、播客与报告,提交后由编辑部审核发布。"
               : "Editors, contributors and institutional partners can upload articles, videos, podcasts and reports. Editorial review before publication."}
           </p>
+
+          {/* View switcher — Upload / Manage */}
+          <div className="mt-8 inline-flex rounded-full border-2 border-foreground bg-background p-1">
+            <button
+              onClick={() => updateView("upload")}
+              className={"inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-bold uppercase tracking-[0.18em] transition-colors " + (view === "upload" ? "bg-foreground text-background" : "text-foreground hover:bg-paper")}
+            >
+              <Upload className="h-3.5 w-3.5" /> {lang === "cn" ? "上载" : "Upload"}
+            </button>
+            <button
+              onClick={() => updateView("manage")}
+              className={"inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-bold uppercase tracking-[0.18em] transition-colors " + (view === "manage" ? "bg-foreground text-background" : "text-foreground hover:bg-paper")}
+            >
+              <LayoutDashboard className="h-3.5 w-3.5" /> {lang === "cn" ? "内容管理" : "Manage"}
+            </button>
+          </div>
         </div>
       </section>
 
@@ -67,7 +101,7 @@ function UploadPage() {
             return (
               <button
                 key={k.id}
-                onClick={() => { setKind(k.id); setSent(false); }}
+                onClick={() => updateKind(k.id)}
                 className={
                   "group rounded-2xl border-2 p-6 text-left transition-all " +
                   (on ? "border-foreground bg-foreground text-background shadow-[6px_6px_0_0_var(--color-lime)]" : "border-border bg-card hover:border-foreground")
@@ -82,6 +116,11 @@ function UploadPage() {
             );
           })}
         </div>
+
+        {view === "manage" ? (
+          <ManageView kind={kind} lang={lang} onNew={() => updateView("upload")} />
+        ) : (
+
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           <form
