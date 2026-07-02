@@ -44,15 +44,21 @@ function AnalysisPage() {
         <SectionLabel index="A · 01" label={lang === "cn" ? "精选分析" : "Featured Analysis"} en="Featured" color="lime" />
         <div className="mt-8 grid gap-8 md:grid-cols-2">
           {featured.map((a) => (
-            <Link key={a.slug} to="/article/$slug" params={{ slug: a.slug }} className="group block rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-foreground">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t(a.category)}</div>
-              <h3 className="mt-3 font-display text-2xl font-bold leading-tight group-hover:text-violet lg:text-3xl">{t(a.title)}</h3>
-              <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">{t(a.excerpt)}</p>
-              <span className="mt-5 inline-flex items-center gap-1 text-[12px] font-semibold text-foreground">
-                {lang === "cn" ? "阅读全文" : "Read more"} <ArrowUpRight className="h-3.5 w-3.5" />
-              </span>
-            </Link>
+            <div key={a.slug} className="group relative">
+              <Link to="/article/$slug" params={{ slug: a.slug }} className="block rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-foreground">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t(a.category)}</div>
+                <h3 className="mt-3 font-display text-2xl font-bold leading-tight group-hover:text-violet lg:text-3xl">{t(a.title)}</h3>
+                <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">{t(a.excerpt)}</p>
+                <span className="mt-5 inline-flex items-center gap-1 text-[12px] font-semibold text-foreground">
+                  {lang === "cn" ? "阅读全文" : "Read more"} <ArrowUpRight className="h-3.5 w-3.5" />
+                </span>
+              </Link>
+              <div className="absolute right-4 top-4 opacity-0 transition-opacity group-hover:opacity-100">
+                <EditInAdmin kind="article" />
+              </div>
+            </div>
           ))}
+
         </div>
       </section>
 
