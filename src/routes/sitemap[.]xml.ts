@@ -32,6 +32,8 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/agent", changefreq: "monthly", priority: "0.7" },
           { path: "/agentic-ai", changefreq: "weekly", priority: "0.9" },
           { path: "/about", changefreq: "monthly", priority: "0.5" },
+          { path: "/contact", changefreq: "monthly", priority: "0.7" },
+          { path: "/upload", changefreq: "monthly", priority: "0.4" },
         ];
 
         const videoEntries: SitemapEntry[] = videos.map((v) => ({
