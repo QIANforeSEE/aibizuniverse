@@ -276,16 +276,24 @@ function TopCarousel() {
           width={1920}
           height={1024}
           className={
-            "absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 " +
-            (idx === i ? "opacity-100" : "opacity-0")
+            "absolute inset-0 h-full w-full object-cover transition-opacity duration-[1400ms] ease-out will-change-transform " +
+            (idx === i ? "opacity-100 animate-hero-kenburns" : "opacity-0")
           }
         />
       ))}
+
+      {/* Ambient nebula blobs — subtle motion */}
+      <div className="pointer-events-none absolute -left-24 top-1/4 h-[420px] w-[420px] rounded-full bg-lime/35 blur-3xl mix-blend-screen animate-hero-drift-a" />
+      <div className="pointer-events-none absolute right-[-6rem] top-1/3 h-[480px] w-[480px] rounded-full bg-violet/40 blur-3xl mix-blend-screen animate-hero-drift-b" />
+      <div className="pointer-events-none absolute bottom-[-6rem] left-1/3 h-[420px] w-[420px] rounded-full bg-alert/30 blur-3xl mix-blend-screen animate-hero-drift-c" />
+
       {/* Preserve height */}
       <img src={s.src} alt="" width={1920} height={1024} className="invisible h-[62vh] min-h-[460px] w-full object-cover lg:h-[80vh]" />
 
-      <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/70 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/60 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-transparent to-transparent" />
+      {/* Subtle grain / scanline overlay for futurism */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-overlay [background-image:repeating-linear-gradient(to_bottom,transparent_0,transparent_2px,#fff_2px,#fff_3px)]" />
 
       <div className="absolute inset-0 mx-auto flex max-w-[1400px] flex-col justify-between px-6 py-10 lg:px-10 lg:py-14">
         <div className="flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-background/80">
@@ -299,8 +307,8 @@ function TopCarousel() {
           </span>
         </div>
 
-        <div className="max-w-3xl">
-          <h1 className="mt-4 font-display text-[10vw] font-bold leading-[0.9] tracking-[-0.03em] text-background sm:text-6xl lg:text-[96px]">
+        <div key={i} className="max-w-3xl animate-hero-reveal">
+          <h1 className="mt-4 font-display text-[10vw] font-bold leading-[0.9] tracking-[-0.03em] text-background sm:text-6xl lg:text-[96px] [text-shadow:0_2px_40px_rgba(0,0,0,0.35)]">
             {t(s.title)}
           </h1>
           <p className="mt-6 max-w-2xl text-base text-background/85 lg:text-lg">{t(s.subtitle)}</p>
@@ -344,9 +352,26 @@ function TopCarousel() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes heroKenBurns { 0% { transform: scale(1.02) translate3d(0,0,0); } 100% { transform: scale(1.12) translate3d(-1.5%,-1%,0); } }
+        @keyframes heroReveal { 0% { opacity: 0; transform: translateY(24px); filter: blur(6px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes heroDriftA { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(40px,-24px,0) scale(1.08); } }
+        @keyframes heroDriftB { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-30px,20px,0) scale(1.1); } }
+        @keyframes heroDriftC { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(20px,-30px,0) scale(1.06); } }
+        .animate-hero-kenburns { animation: heroKenBurns 8s ease-out both; }
+        .animate-hero-reveal { animation: heroReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .animate-hero-drift-a { animation: heroDriftA 14s ease-in-out infinite; }
+        .animate-hero-drift-b { animation: heroDriftB 18s ease-in-out infinite; }
+        .animate-hero-drift-c { animation: heroDriftC 16s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-hero-kenburns, .animate-hero-reveal, .animate-hero-drift-a, .animate-hero-drift-b, .animate-hero-drift-c { animation: none !important; }
+        }
+      `}</style>
     </section>
   );
 }
+
 
 /* ---------- AGENT ENTRY — moved up ---------- */
 
