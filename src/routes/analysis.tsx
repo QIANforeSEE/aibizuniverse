@@ -58,9 +58,9 @@ function AnalysisPage() {
         <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-20">
           <SectionLabel index="A · 02" label={lang === "cn" ? "商业信号" : "Signals"} en="Signals" color="signal" />
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {signals.map((s, i) => (
-              <div key={i} className="rounded-xl border border-border bg-background p-5">
-                <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">{s.tag}</div>
+            {signals.map((s) => (
+              <div key={s.id} className="rounded-xl border border-border bg-background p-5">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">{s.tags.join(" · ")}</div>
                 <div className="mt-2 font-display text-lg font-bold leading-tight">{t(s.title)}</div>
               </div>
             ))}
