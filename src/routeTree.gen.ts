@@ -32,6 +32,7 @@ import { Route as PodcastSlugRouteImport } from './routes/podcast.$slug'
 import { Route as MusicSlugRouteImport } from './routes/music.$slug'
 import { Route as ChannelSlugRouteImport } from './routes/channel.$slug'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as ApiUploadValidateRouteImport } from './routes/api/upload-validate'
 import { Route as ApiAgentRouteImport } from './routes/api/agent'
 
 const VideoRoute = VideoRouteImport.update({
@@ -149,6 +150,11 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
   path: '/article/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiUploadValidateRoute = ApiUploadValidateRouteImport.update({
+  id: '/api/upload-validate',
+  path: '/api/upload-validate',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAgentRoute = ApiAgentRouteImport.update({
   id: '/api/agent',
   path: '/api/agent',
@@ -174,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/upload': typeof UploadRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
+  '/api/upload-validate': typeof ApiUploadValidateRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/channel/$slug': typeof ChannelSlugRoute
   '/music/$slug': typeof MusicSlugRoute
@@ -200,6 +207,7 @@ export interface FileRoutesByTo {
   '/upload': typeof UploadRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
+  '/api/upload-validate': typeof ApiUploadValidateRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/channel/$slug': typeof ChannelSlugRoute
   '/music/$slug': typeof MusicSlugRoute
@@ -227,6 +235,7 @@ export interface FileRoutesById {
   '/upload': typeof UploadRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
+  '/api/upload-validate': typeof ApiUploadValidateRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/channel/$slug': typeof ChannelSlugRoute
   '/music/$slug': typeof MusicSlugRoute
@@ -255,6 +264,7 @@ export interface FileRouteTypes {
     | '/upload'
     | '/video'
     | '/api/agent'
+    | '/api/upload-validate'
     | '/article/$slug'
     | '/channel/$slug'
     | '/music/$slug'
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
     | '/upload'
     | '/video'
     | '/api/agent'
+    | '/api/upload-validate'
     | '/article/$slug'
     | '/channel/$slug'
     | '/music/$slug'
@@ -307,6 +318,7 @@ export interface FileRouteTypes {
     | '/upload'
     | '/video'
     | '/api/agent'
+    | '/api/upload-validate'
     | '/article/$slug'
     | '/channel/$slug'
     | '/music/$slug'
@@ -334,6 +346,7 @@ export interface RootRouteChildren {
   UploadRoute: typeof UploadRoute
   VideoRoute: typeof VideoRouteWithChildren
   ApiAgentRoute: typeof ApiAgentRoute
+  ApiUploadValidateRoute: typeof ApiUploadValidateRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   ChannelSlugRoute: typeof ChannelSlugRoute
 }
@@ -501,6 +514,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/upload-validate': {
+      id: '/api/upload-validate'
+      path: '/api/upload-validate'
+      fullPath: '/api/upload-validate'
+      preLoaderRoute: typeof ApiUploadValidateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/agent': {
       id: '/api/agent'
       path: '/api/agent'
@@ -572,6 +592,7 @@ const rootRouteChildren: RootRouteChildren = {
   UploadRoute: UploadRoute,
   VideoRoute: VideoRouteWithChildren,
   ApiAgentRoute: ApiAgentRoute,
+  ApiUploadValidateRoute: ApiUploadValidateRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   ChannelSlugRoute: ChannelSlugRoute,
 }

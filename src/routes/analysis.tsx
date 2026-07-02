@@ -54,7 +54,7 @@ function AnalysisPage() {
                 </span>
               </Link>
               <div className="absolute right-4 top-4 opacity-0 transition-opacity group-hover:opacity-100">
-                <EditInAdmin kind="article" />
+                <EditInAdmin kind="article" slug={a.slug} title={t(a.title)} />
               </div>
             </div>
           ))}
