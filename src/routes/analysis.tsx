@@ -2,9 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { UploadCTA } from "@/components/site/UploadCTA";
+import { EditInAdmin } from "@/components/site/EditInAdmin";
 import { featured, signals } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { buildStaticHead } from "@/lib/seo";
+
 
 export const Route = createFileRoute("/analysis")({
   head: () =>
