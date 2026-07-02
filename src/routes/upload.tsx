@@ -98,11 +98,13 @@ function UploadPage() {
     if (search.mode === "edit" && search.slug) {
       const item = lookupBySlug(search.slug, search.type ?? kind);
       if (item) {
+        const t = item.title as any;
+        const e = (item as any).excerpt;
         setForm((f) => ({
           ...f,
-          titleCn: item.title.cn,
-          titleEn: item.title.en,
-          excerpt: (item as any).excerpt?.cn ?? f.excerpt,
+          titleCn: typeof t === "string" ? t : t.cn,
+          titleEn: typeof t === "string" ? t : t.en,
+          excerpt: !e ? f.excerpt : typeof e === "string" ? e : e.cn,
         }));
       } else if (search.title) {
         setForm((f) => ({ ...f, titleEn: search.title!, titleCn: search.title! }));
