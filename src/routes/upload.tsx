@@ -54,11 +54,12 @@ function UploadPage() {
   const updateKind = (k: Kind) => {
     setKind(k);
     setSent(false);
-    navigate({ search: (prev) => ({ ...prev, type: k }) });
+    navigate({ search: { ...search, type: k } });
   };
   const updateView = (v: View) => {
     setView(v);
-    navigate({ search: (prev) => ({ ...prev, view: v }) });
+    navigate({ search: { ...search, view: v } });
+
   };
 
   return (
