@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { z } from "zod";
 import { Upload, FileText, Film, Mic, FileBarChart2, CheckCircle2, ImagePlus } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { useLang } from "@/lib/i18n";
@@ -14,7 +15,13 @@ const KINDS: { id: Kind; icon: typeof FileText; cn: string; en: string; note: { 
   { id: "report", icon: FileBarChart2, cn: "报告", en: "Report", note: { cn: "白皮书 / 趋势报告 / 方法论", en: "Whitepapers, trend reports" } },
 ];
 
+const searchSchema = z.object({
+  type: z.enum(["article", "video", "podcast", "report"]).optional(),
+  view: z.enum(["upload", "manage"]).optional(),
+});
+
 export const Route = createFileRoute("/upload")({
+  validateSearch: searchSchema,
   head: () =>
     buildStaticHead({
       path: "/upload",
@@ -27,9 +34,11 @@ export const Route = createFileRoute("/upload")({
 
 function UploadPage() {
   const { lang } = useLang();
-  const [kind, setKind] = useState<Kind>("article");
+  const search = Route.useSearch();
+  const [kind, setKind] = useState<Kind>(search.type ?? "article");
   const [sent, setSent] = useState(false);
   const active = KINDS.find((k) => k.id === kind)!;
+
 
   return (
     <SiteLayout>

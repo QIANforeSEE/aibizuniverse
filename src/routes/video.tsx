@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Play } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
+import { UploadCTA } from "@/components/site/UploadCTA";
 import { videos } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 import { videoThumbs, str } from "@/lib/thumbs";
@@ -40,6 +41,8 @@ function VideoPage() {
           </p>
         </div>
       </section>
+
+      <UploadCTA kind="video" />
 
       <section className="border-b border-border">
         <Link to="/video/$slug" params={{ slug: hero.slug }} className="group relative block overflow-hidden">

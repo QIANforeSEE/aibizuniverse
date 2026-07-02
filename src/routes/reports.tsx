@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FileText, ArrowUpRight } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
+import { UploadCTA } from "@/components/site/UploadCTA";
 import { reports } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
 
@@ -56,6 +57,8 @@ function ReportsPage() {
           </p>
         </div>
       </section>
+
+      <UploadCTA kind="report" />
 
       <section className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-24">
         <SectionLabel index="R · 01" label={lang === "cn" ? "全部报告" : "All Reports"} en="All Reports" color="violet" />
