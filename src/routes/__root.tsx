@@ -96,8 +96,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "AI Business Universe is a global AI growth intelligence platform for businesses." },
       { property: "og:description", content: "AI Business Universe is a global AI growth intelligence platform for businesses." },
       { name: "twitter:description", content: "AI Business Universe is a global AI growth intelligence platform for businesses." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/83a2d1fd-2b60-4a2f-8465-2f5465e6cb90/id-preview-5f3e8c80--999436f2-8ca9-4d38-be35-c0d9c8e1b2f5.lovable.app-1782884043780.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/83a2d1fd-2b60-4a2f-8465-2f5465e6cb90/id-preview-5f3e8c80--999436f2-8ca9-4d38-be35-c0d9c8e1b2f5.lovable.app-1782884043780.png" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/864baa52-0300-4d4d-a208-958294aa0479" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/864baa52-0300-4d4d-a208-958294aa0479" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
