@@ -473,7 +473,7 @@ function ManageView({
 
   // Real items for this kind, so Edit deep-links match the public routes.
   const items = useMemo(() => {
-    const t = (o: { cn: string; en: string }) => (lang === "cn" ? o.cn : o.en);
+    const t = (o: any): string => (typeof o === "string" ? o : lang === "cn" ? o.cn : o.en);
     if (kind === "article") return featured.slice(0, 6).map((x) => ({ slug: x.slug, title: t(x.title), status: "Published" }));
     if (kind === "report") return reports.slice(0, 6).map((x) => ({ slug: x.slug, title: t(x.title), status: "Published" }));
     if (kind === "video") return videos.slice(0, 6).map((x) => ({ slug: x.slug, title: t(x.title), status: "Published" }));
