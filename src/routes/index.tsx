@@ -101,6 +101,7 @@ function Home() {
     <SiteLayout>
       <TopCarousel />
       <AgentEntry />
+      <GrowthHub />
       <SignalStrip />
       <FeaturedAnalysis />
       <VideoGrid />
@@ -115,6 +116,70 @@ function Home() {
     </SiteLayout>
   );
 }
+
+/* ---------- AI+ GROWTH HUB ---------- */
+
+function GrowthHub() {
+  const { lang } = useLang();
+  const pillars = [
+    { c: "01", cn: "AI 战略咨询", en: "AI Strategy", color: "bg-violet text-white" },
+    { c: "02", cn: "AI 品牌增长", en: "Brand Growth", color: "bg-lime text-foreground" },
+    { c: "03", cn: "AI 营销转型", en: "Marketing Ops", color: "bg-signal text-foreground" },
+    { c: "04", cn: "AI Agent 共创", en: "Agent Co-Build", color: "bg-alert text-white" },
+    { c: "05", cn: "AI 企业培训", en: "Executive Training", color: "bg-foreground text-background" },
+    { c: "06", cn: "定制研究报告", en: "Custom Research", color: "bg-violet text-white" },
+  ];
+  return (
+    <section className="relative overflow-hidden border-b-2 border-foreground bg-gradient-to-br from-lime/30 via-signal/20 to-violet/25">
+      <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-10 lg:py-20">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-foreground px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.24em] text-lime">
+              <Sparkles className="h-3 w-3" /> AI+ GROWTH HUB
+            </div>
+            <h2 className="mt-5 max-w-3xl font-display text-4xl font-bold leading-[1.02] tracking-tight lg:text-6xl">
+              {lang === "cn"
+                ? (<>一个入口,连接你所需要的 <span className="bg-foreground px-1 text-lime">AI 增长能力</span>。</>)
+                : (<>One hub for every <span className="bg-foreground px-1 text-lime">AI growth capability</span> you need.</>)}
+            </h2>
+            <p className="mt-4 max-w-2xl text-[15px] text-foreground/80">
+              {lang === "cn"
+                ? "从战略到 Agent,从品牌到组织。AI+ GROWTH HUB 汇集咨询、共创、培训与研究,为企业提供端到端的增长服务。"
+                : "From strategy to agents, brand to org. AI+ GROWTH HUB unites consulting, co-creation, training and research into an end-to-end offering."}
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Link to="/consulting" className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background hover:bg-violet">
+              {lang === "cn" ? "预约诊断" : "Book diagnostic"} <ArrowUpRight className="h-4 w-4" />
+            </Link>
+            <Link to="/contact" className="inline-flex items-center gap-2 rounded-full border-2 border-foreground bg-background px-5 py-3 text-sm font-semibold text-foreground hover:bg-foreground hover:text-background">
+              {lang === "cn" ? "联系我们" : "Contact"}
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+          {pillars.map((p) => (
+            <Link
+              key={p.c}
+              to="/consulting"
+              className="group relative overflow-hidden rounded-xl border-2 border-foreground bg-background p-5 transition-all hover:-translate-y-1 hover:shadow-[6px_6px_0_0_var(--color-foreground)]"
+            >
+              <span className={"inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest " + p.color}>
+                {p.c}
+              </span>
+              <div className="mt-4 font-display text-[15px] font-bold leading-tight">
+                {lang === "cn" ? p.cn : p.en}
+              </div>
+              <ArrowUpRight className="mt-3 h-4 w-4 text-muted-foreground group-hover:text-foreground" />
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 /* ---------- TOP CAROUSEL — 6 rotating covers ---------- */
 
@@ -796,7 +861,12 @@ function ReportsRow() {
 
         <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {reports.map((r) => (
-            <div key={r.id} className="group flex flex-col rounded-2xl border border-background/15 bg-background/[0.03] p-6 transition-all hover:-translate-y-1 hover:border-background/40 hover:bg-background/[0.06]">
+            <Link
+              key={r.id}
+              to="/reports/$slug"
+              params={{ slug: r.slug }}
+              className="group flex flex-col rounded-2xl border border-background/15 bg-background/[0.03] p-6 transition-all hover:-translate-y-1 hover:border-background/40 hover:bg-background/[0.06]"
+            >
               <span className={"self-start rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest " + accentClass[r.color]}>
                 {t(r.tag)}
               </span>
@@ -805,12 +875,13 @@ function ReportsRow() {
               <div className="mt-6 flex items-center justify-between border-t border-background/10 pt-4 text-[11px] text-background/60">
                 <span>{r.pages} pages · {r.format}</span>
                 <span className="flex items-center gap-1 font-semibold text-lime">
-                  {lang === "cn" ? "下载" : "Download"} <ArrowUpRight className="h-3.5 w-3.5" />
+                  {lang === "cn" ? "下载报告" : "Download"} <ArrowUpRight className="h-3.5 w-3.5" />
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
+
       </div>
     </section>
   );

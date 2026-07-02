@@ -16,6 +16,8 @@ const NAV = [
   { to: "/music", label: UI.music },
   { to: "/reports", label: UI.reports },
   { to: "/consulting", label: UI.consulting },
+  { to: "/upload", label: { cn: "上载", en: "Upload" } as const },
+  { to: "/contact", label: { cn: "联系", en: "Contact" } as const },
 ] as const;
 
 function LangToggle() {

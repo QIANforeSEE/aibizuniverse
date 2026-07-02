@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VideoRouteImport } from './routes/video'
+import { Route as UploadRouteImport } from './routes/upload'
 import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReportsRouteImport } from './routes/reports'
@@ -17,6 +18,7 @@ import { Route as PodcastRouteImport } from './routes/podcast'
 import { Route as PlaybooksRouteImport } from './routes/playbooks'
 import { Route as MusicRouteImport } from './routes/music'
 import { Route as KeyPlayersRouteImport } from './routes/key-players'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConsultingRouteImport } from './routes/consulting'
 import { Route as AnalysisRouteImport } from './routes/analysis'
 import { Route as AiNowRouteImport } from './routes/ai-now'
@@ -35,6 +37,11 @@ import { Route as ApiAgentRouteImport } from './routes/api/agent'
 const VideoRoute = VideoRouteImport.update({
   id: '/video',
   path: '/video',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UploadRoute = UploadRouteImport.update({
+  id: '/upload',
+  path: '/upload',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrendsRoute = TrendsRouteImport.update({
@@ -70,6 +77,11 @@ const MusicRoute = MusicRouteImport.update({
 const KeyPlayersRoute = KeyPlayersRouteImport.update({
   id: '/key-players',
   path: '/key-players',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConsultingRoute = ConsultingRouteImport.update({
@@ -151,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/ai-now': typeof AiNowRoute
   '/analysis': typeof AnalysisRoute
   '/consulting': typeof ConsultingRoute
+  '/contact': typeof ContactRoute
   '/key-players': typeof KeyPlayersRoute
   '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
@@ -158,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/reports': typeof ReportsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trends': typeof TrendsRoute
+  '/upload': typeof UploadRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -175,6 +189,7 @@ export interface FileRoutesByTo {
   '/ai-now': typeof AiNowRoute
   '/analysis': typeof AnalysisRoute
   '/consulting': typeof ConsultingRoute
+  '/contact': typeof ContactRoute
   '/key-players': typeof KeyPlayersRoute
   '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
@@ -182,6 +197,7 @@ export interface FileRoutesByTo {
   '/reports': typeof ReportsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trends': typeof TrendsRoute
+  '/upload': typeof UploadRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -200,6 +216,7 @@ export interface FileRoutesById {
   '/ai-now': typeof AiNowRoute
   '/analysis': typeof AnalysisRoute
   '/consulting': typeof ConsultingRoute
+  '/contact': typeof ContactRoute
   '/key-players': typeof KeyPlayersRoute
   '/music': typeof MusicRouteWithChildren
   '/playbooks': typeof PlaybooksRoute
@@ -207,6 +224,7 @@ export interface FileRoutesById {
   '/reports': typeof ReportsRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trends': typeof TrendsRoute
+  '/upload': typeof UploadRoute
   '/video': typeof VideoRouteWithChildren
   '/api/agent': typeof ApiAgentRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -226,6 +244,7 @@ export interface FileRouteTypes {
     | '/ai-now'
     | '/analysis'
     | '/consulting'
+    | '/contact'
     | '/key-players'
     | '/music'
     | '/playbooks'
@@ -233,6 +252,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/sitemap.xml'
     | '/trends'
+    | '/upload'
     | '/video'
     | '/api/agent'
     | '/article/$slug'
@@ -250,6 +270,7 @@ export interface FileRouteTypes {
     | '/ai-now'
     | '/analysis'
     | '/consulting'
+    | '/contact'
     | '/key-players'
     | '/music'
     | '/playbooks'
@@ -257,6 +278,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/sitemap.xml'
     | '/trends'
+    | '/upload'
     | '/video'
     | '/api/agent'
     | '/article/$slug'
@@ -274,6 +296,7 @@ export interface FileRouteTypes {
     | '/ai-now'
     | '/analysis'
     | '/consulting'
+    | '/contact'
     | '/key-players'
     | '/music'
     | '/playbooks'
@@ -281,6 +304,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/sitemap.xml'
     | '/trends'
+    | '/upload'
     | '/video'
     | '/api/agent'
     | '/article/$slug'
@@ -299,6 +323,7 @@ export interface RootRouteChildren {
   AiNowRoute: typeof AiNowRoute
   AnalysisRoute: typeof AnalysisRoute
   ConsultingRoute: typeof ConsultingRoute
+  ContactRoute: typeof ContactRoute
   KeyPlayersRoute: typeof KeyPlayersRoute
   MusicRoute: typeof MusicRouteWithChildren
   PlaybooksRoute: typeof PlaybooksRoute
@@ -306,6 +331,7 @@ export interface RootRouteChildren {
   ReportsRoute: typeof ReportsRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrendsRoute: typeof TrendsRoute
+  UploadRoute: typeof UploadRoute
   VideoRoute: typeof VideoRouteWithChildren
   ApiAgentRoute: typeof ApiAgentRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
@@ -319,6 +345,13 @@ declare module '@tanstack/react-router' {
       path: '/video'
       fullPath: '/video'
       preLoaderRoute: typeof VideoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/upload': {
+      id: '/upload'
+      path: '/upload'
+      fullPath: '/upload'
+      preLoaderRoute: typeof UploadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/trends': {
@@ -368,6 +401,13 @@ declare module '@tanstack/react-router' {
       path: '/key-players'
       fullPath: '/key-players'
       preLoaderRoute: typeof KeyPlayersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/consulting': {
@@ -521,6 +561,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiNowRoute: AiNowRoute,
   AnalysisRoute: AnalysisRoute,
   ConsultingRoute: ConsultingRoute,
+  ContactRoute: ContactRoute,
   KeyPlayersRoute: KeyPlayersRoute,
   MusicRoute: MusicRouteWithChildren,
   PlaybooksRoute: PlaybooksRoute,
@@ -528,6 +569,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReportsRoute: ReportsRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrendsRoute: TrendsRoute,
+  UploadRoute: UploadRoute,
   VideoRoute: VideoRouteWithChildren,
   ApiAgentRoute: ApiAgentRoute,
   ArticleSlugRoute: ArticleSlugRoute,
