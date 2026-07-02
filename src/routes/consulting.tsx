@@ -121,43 +121,11 @@ function ConsultingPage() {
             ))}
           </ul>
 
-          <div className="mt-8 rounded-2xl border-2 border-foreground bg-paper p-5">
-            <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-violet">
-              {lang === "cn" ? "三种联系方式,任选其一" : "Three ways to reach us — pick one"}
-            </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              <a href="tel:+8613800000000" className="group flex items-start gap-3 rounded-xl border border-border bg-background p-4 hover:border-foreground">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-lime text-foreground"><Phone className="h-4 w-4" /></span>
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">{lang === "cn" ? "电话" : "Phone"}</div>
-                  <div className="text-sm font-semibold">+86 138 0000 0000</div>
-                  <div className="text-[11px] text-muted-foreground">{lang === "cn" ? "工作日 9:00–20:00" : "Mon–Fri 9:00–20:00"}</div>
-                </div>
-              </a>
-              <a href="mailto:consulting@aibizuniverse.com" className="group flex items-start gap-3 rounded-xl border border-border bg-background p-4 hover:border-foreground">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet text-white"><Mail className="h-4 w-4" /></span>
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">{lang === "cn" ? "邮箱" : "Email"}</div>
-                  <div className="text-sm font-semibold break-all">consulting@aibizuniverse.com</div>
-                  <div className="text-[11px] text-muted-foreground">{lang === "cn" ? "24 小时内回复" : "Reply within 24h"}</div>
-                </div>
-              </a>
-              <a href="#booking" className="group flex items-start gap-3 rounded-xl border border-border bg-background p-4 hover:border-foreground">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-alert text-white"><MessageSquare className="h-4 w-4" /></span>
-                <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">{lang === "cn" ? "在线表单" : "Online form"}</div>
-                  <div className="text-sm font-semibold">{lang === "cn" ? "预约 30 分钟诊断" : "Book 30-min diagnostic"}</div>
-                  <div className="text-[11px] text-muted-foreground">{lang === "cn" ? "免费 · 专属回复" : "Free · personal reply"}</div>
-                </div>
-              </a>
-            </div>
-            <p className="mt-4 text-[11px] text-muted-foreground">
-              {lang === "cn"
-                ? "咨询 · 培训 · 共创 — Contact AI BIZ UNIVERSE for consulting, training & co-creation."
-                : "Consulting · Training · Co-Creation — 联系 AI 商业宇宙,开启 AI 增长。"}
-            </p>
+          <div className="mt-8">
+            <ContactChannels formHref="#booking" />
           </div>
         </div>
+
 
         <form
           onSubmit={(e) => { e.preventDefault(); setSent(true); }}
