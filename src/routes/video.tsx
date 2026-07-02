@@ -67,21 +67,27 @@ function VideoPage() {
         <SectionLabel index="V · 02" label={lang === "cn" ? "更多视频" : "More Films"} en="More Films" color="lime" />
         <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {rest.map((v) => (
-            <Link key={v.id} to="/video/$slug" params={{ slug: v.slug }} className="group block">
-              <div className="relative aspect-video overflow-hidden rounded-md bg-foreground">
-                <img src={videoThumbs[v.thumb]} alt={str(v.title)} loading="lazy" width={1280} height={720} className="h-full w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" />
-                <div className="absolute inset-0 flex items-center justify-center bg-foreground/20 opacity-0 transition-opacity group-hover:opacity-100">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-lime text-foreground">
-                    <Play className="h-5 w-5 fill-current" />
-                  </span>
+            <div key={v.id} className="group relative block">
+              <Link to="/video/$slug" params={{ slug: v.slug }} className="block">
+                <div className="relative aspect-video overflow-hidden rounded-md bg-foreground">
+                  <img src={videoThumbs[v.thumb]} alt={str(v.title)} loading="lazy" width={1280} height={720} className="h-full w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-foreground/20 opacity-0 transition-opacity group-hover:opacity-100">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-lime text-foreground">
+                      <Play className="h-5 w-5 fill-current" />
+                    </span>
+                  </div>
+                  <span className="absolute bottom-3 right-3 rounded-sm bg-foreground/85 px-2 py-0.5 font-mono text-[11px] text-background">{v.duration}</span>
                 </div>
-                <span className="absolute bottom-3 right-3 rounded-sm bg-foreground/85 px-2 py-0.5 font-mono text-[11px] text-background">{v.duration}</span>
+                <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t(v.category)}</div>
+                <h3 className="mt-2 font-display text-xl leading-snug group-hover:text-violet">{t(v.title)}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{t(v.excerpt)}</p>
+              </Link>
+              <div className="absolute right-3 top-3 opacity-0 transition-opacity group-hover:opacity-100">
+                <EditInAdmin kind="video" />
               </div>
-              <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t(v.category)}</div>
-              <h3 className="mt-2 font-display text-xl leading-snug group-hover:text-violet">{t(v.title)}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{t(v.excerpt)}</p>
-            </Link>
+            </div>
           ))}
+
         </div>
       </section>
     </SiteLayout>
