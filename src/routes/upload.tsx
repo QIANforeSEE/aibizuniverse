@@ -1,12 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { z } from "zod";
-import { Upload, FileText, Film, Mic, FileBarChart2, CheckCircle2, ImagePlus } from "lucide-react";
+import { Upload, FileText, Film, Mic, FileBarChart2, CheckCircle2, ImagePlus, LayoutDashboard, Plus, Pencil, Trash2 } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
+import { ContactChannels } from "@/components/site/ContactChannels";
 import { useLang } from "@/lib/i18n";
 import { buildStaticHead } from "@/lib/seo";
 
 type Kind = "article" | "video" | "podcast" | "report";
+type View = "upload" | "manage";
+
 
 const KINDS: { id: Kind; icon: typeof FileText; cn: string; en: string; note: { cn: string; en: string } }[] = [
   { id: "article", icon: FileText, cn: "文章 · 分析", en: "Article", note: { cn: "深度分析 / 案例拆解 / 观点评论", en: "Analysis, case study, essay" } },
