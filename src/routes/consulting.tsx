@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowUpRight, CheckCircle2, GraduationCap, Compass, Users, Sparkles, Send, Phone, Mail, MessageSquare } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, GraduationCap, Compass, Users, Sparkles, Send } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
+import { ContactChannels } from "@/components/site/ContactChannels";
 import { useT, useLang } from "@/lib/i18n";
 import { consultingServices } from "@/lib/mock-data";
 import { buildStaticHead } from "@/lib/seo";
+
 
 export const Route = createFileRoute("/consulting")({
   head: () =>
