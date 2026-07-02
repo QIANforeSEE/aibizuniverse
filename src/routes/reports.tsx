@@ -2,8 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FileText, ArrowUpRight } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
 import { UploadCTA } from "@/components/site/UploadCTA";
+import { EditInAdmin } from "@/components/site/EditInAdmin";
 import { reports } from "@/lib/mock-data";
 import { useT, useLang } from "@/lib/i18n";
+
 
 export const Route = createFileRoute("/reports")({
   head: () => ({
