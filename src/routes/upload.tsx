@@ -1,12 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { z } from "zod";
-import { Upload, FileText, Film, Mic, FileBarChart2, CheckCircle2, ImagePlus } from "lucide-react";
+import { Upload, FileText, Film, Mic, FileBarChart2, CheckCircle2, ImagePlus, LayoutDashboard, Plus, Pencil, Trash2 } from "lucide-react";
 import { SiteLayout, SectionLabel } from "@/components/site/SiteLayout";
+import { ContactChannels } from "@/components/site/ContactChannels";
 import { useLang } from "@/lib/i18n";
 import { buildStaticHead } from "@/lib/seo";
 
 type Kind = "article" | "video" | "podcast" | "report";
+type View = "upload" | "manage";
+
 
 const KINDS: { id: Kind; icon: typeof FileText; cn: string; en: string; note: { cn: string; en: string } }[] = [
   { id: "article", icon: FileText, cn: "文章 · 分析", en: "Article", note: { cn: "深度分析 / 案例拆解 / 观点评论", en: "Analysis, case study, essay" } },
@@ -35,10 +38,29 @@ export const Route = createFileRoute("/upload")({
 function UploadPage() {
   const { lang } = useLang();
   const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/upload" });
   const [kind, setKind] = useState<Kind>(search.type ?? "article");
+  const [view, setView] = useState<View>(search.view ?? "upload");
   const [sent, setSent] = useState(false);
   const active = KINDS.find((k) => k.id === kind)!;
 
+  // Keep local state in sync when the URL changes (deep links from cards / CTAs)
+  useEffect(() => {
+    if (search.type && search.type !== kind) setKind(search.type);
+    if (search.view && search.view !== view) setView(search.view);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.type, search.view]);
+
+  const updateKind = (k: Kind) => {
+    setKind(k);
+    setSent(false);
+    navigate({ search: { ...search, type: k } });
+  };
+  const updateView = (v: View) => {
+    setView(v);
+    navigate({ search: { ...search, view: v } });
+
+  };
 
   return (
     <SiteLayout>
@@ -53,6 +75,22 @@ function UploadPage() {
               ? "编辑、合作作者与机构合作方可通过本页上载文章、视频、播客与报告,提交后由编辑部审核发布。"
               : "Editors, contributors and institutional partners can upload articles, videos, podcasts and reports. Editorial review before publication."}
           </p>
+
+          {/* View switcher — Upload / Manage */}
+          <div className="mt-8 inline-flex rounded-full border-2 border-foreground bg-background p-1">
+            <button
+              onClick={() => updateView("upload")}
+              className={"inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-bold uppercase tracking-[0.18em] transition-colors " + (view === "upload" ? "bg-foreground text-background" : "text-foreground hover:bg-paper")}
+            >
+              <Upload className="h-3.5 w-3.5" /> {lang === "cn" ? "上载" : "Upload"}
+            </button>
+            <button
+              onClick={() => updateView("manage")}
+              className={"inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-bold uppercase tracking-[0.18em] transition-colors " + (view === "manage" ? "bg-foreground text-background" : "text-foreground hover:bg-paper")}
+            >
+              <LayoutDashboard className="h-3.5 w-3.5" /> {lang === "cn" ? "内容管理" : "Manage"}
+            </button>
+          </div>
         </div>
       </section>
 
@@ -64,7 +102,7 @@ function UploadPage() {
             return (
               <button
                 key={k.id}
-                onClick={() => { setKind(k.id); setSent(false); }}
+                onClick={() => updateKind(k.id)}
                 className={
                   "group rounded-2xl border-2 p-6 text-left transition-all " +
                   (on ? "border-foreground bg-foreground text-background shadow-[6px_6px_0_0_var(--color-lime)]" : "border-border bg-card hover:border-foreground")
@@ -79,6 +117,11 @@ function UploadPage() {
             );
           })}
         </div>
+
+        {view === "manage" ? (
+          <ManageView kind={kind} lang={lang} onNew={() => updateView("upload")} />
+        ) : (
+
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           <form
@@ -205,12 +248,64 @@ function UploadPage() {
             </div>
           </aside>
         </div>
+        )}
+
+        {/* Standardized contact CTA — matches /consulting */}
+        <div className="mt-12">
+          <ContactChannels formHref="/consulting#booking" />
+        </div>
       </section>
 
       <style>{`.inp{width:100%;border:1px solid var(--color-border);border-radius:8px;padding:10px 12px;font-size:14px;background:transparent;outline:none}.inp:focus{border-color:var(--color-foreground)}`}</style>
     </SiteLayout>
   );
 }
+
+function ManageView({ kind, lang, onNew }: { kind: Kind; lang: "cn" | "en"; onNew: () => void }) {
+  const active = KINDS.find((k) => k.id === kind)!;
+  const rows = [
+    { s: "Published", t: lang === "cn" ? "AI 走进董事会" : "AI enters the boardroom", k: active.en, color: "bg-lime text-foreground", date: "2026-06-28" },
+    { s: "Pending", t: lang === "cn" ? "GEO 品牌可见性实验" : "GEO brand visibility trial", k: active.en, color: "bg-signal text-foreground", date: "2026-06-30" },
+    { s: "Draft", t: lang === "cn" ? "算力经济的液态涌动" : "Liquid surge of compute", k: active.en, color: "bg-alert text-white", date: "2026-07-01" },
+  ];
+  return (
+    <div className="mt-10 rounded-2xl border-2 border-foreground bg-background p-6 lg:p-8">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-violet">
+            {lang === "cn" ? "内容管理" : "Content Manager"} · {lang === "cn" ? active.cn : active.en}
+          </div>
+          <h2 className="mt-1 font-display text-2xl font-bold">
+            {lang === "cn" ? "已发布 · 待审 · 草稿" : "Published · Pending · Drafts"}
+          </h2>
+        </div>
+        <button
+          onClick={onNew}
+          className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-semibold text-background hover:bg-violet"
+        >
+          <Plus className="h-4 w-4" /> {lang === "cn" ? "新建" : "New"} · {lang === "cn" ? active.cn : active.en}
+        </button>
+      </div>
+      <ul className="mt-6 divide-y divide-border overflow-hidden rounded-xl border border-border">
+        {rows.map((r) => (
+          <li key={r.t} className="flex items-center justify-between gap-3 bg-paper px-4 py-3 text-sm">
+            <span className={"rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest " + r.color}>{r.s}</span>
+            <span className="flex-1 truncate text-foreground/85">{r.t}</span>
+            <span className="hidden font-mono text-[11px] text-muted-foreground sm:inline">{r.date}</span>
+            <div className="flex gap-1">
+              <button className="rounded-full border border-border p-1.5 hover:border-foreground" aria-label="Edit"><Pencil className="h-3.5 w-3.5" /></button>
+              <button className="rounded-full border border-border p-1.5 hover:border-alert hover:text-alert" aria-label="Delete"><Trash2 className="h-3.5 w-3.5" /></button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-4 text-[11px] text-muted-foreground">
+        {lang === "cn" ? "完整 CMS 与权限系统将随 Cloud 后台上线。" : "Full CMS with roles ships with the Cloud backend."}
+      </p>
+    </div>
+  );
+}
+
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
